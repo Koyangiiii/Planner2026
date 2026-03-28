@@ -1,324 +1,234 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Stock Management | Koyangi Store</title>
-    <!-- เพิ่ม Google Fonts: Mitr และ Mrs Saint Delafield (ลายเซ็น) -->
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
-    <style>
-        :root{ --bg:#1a1a1a; --main:#9d81e1; --dark:#d1c4e9; --white:#252525; --green:#4caf50; --red:#ff5252; --glow:rgba(157,129,225,0.3); }
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Mitr',sans-serif;}
-        body { background: var(--bg); color: #fff; display: flex; justify-content: center; min-height: 100vh; }
-        
-        /* --- เพิ่มส่วนหัวสไตล์ลายเซ็น --- */
-        .signature-title {
-            font-family: 'Mrs Saint Delafield', cursive;
-            font-size: 60px;
-            color: var(--main);
-            line-height: 0.8;
-            margin-bottom: 5px;
-            display: block;
-            text-shadow: 0 0 15px var(--glow);
-        }
-
-        /* --- UI Elements (คงเดิม 100%) --- */
-        .hamburger { position: fixed; top: 20px; right: 20px; z-index: 1100; background: var(--main); width: 45px; height: 45px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 4px 15px var(--glow); transition: 0.3s; }
-        .hamburger span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s ease-in-out; display: block; }
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        .sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #252525; z-index: 1050; padding: 80px 20px 20px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -5px 0 25px rgba(0,0,0,0.5); border-left: 2px solid var(--main); }
-        .sidebar.active { right: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 999; backdrop-filter: blur(3px); }
-        .overlay.active { display: block; }
-
-        .admin-container { width: 100%; max-width: 500px; padding: 40px 15px 120px; }
-        .section-card { background: var(--white); border-radius: 25px; padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--main); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        
-        select, input { width: 100%; padding: 10px 15px; background: #1a1a1a; border: 1.2px solid #444; border-radius: 12px; color: #fff; outline: none; font-size: 14px; transition: 0.3s; }
-        select:focus, input:focus { border-color: var(--main); }
-
-        .app-cat { width: auto !important; min-width: 120px; padding-right: 30px; }
-
-        .stock-item { background: #2d2d2d; border-radius: 20px; padding: 15px; margin-bottom: 15px; border: 1px solid #444; position: relative; transition: 0.3s; }
-        .stock-item.out-of-stock { opacity: 0.6; filter: grayscale(0.8); border: 1px solid var(--red); }
-        .stock-item.out-of-stock::after { content: "SOLD OUT"; position: absolute; top: 10px; right: 10px; background: var(--red); color: white; font-size: 10px; padding: 2px 8px; border-radius: 5px; font-weight: bold; }
-        .stock-item.hidden-item { opacity: 0.5; border-style: dashed; }
-
-        .item-header { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
-        .img-box { position: relative; width: 65px; height: 65px; flex-shrink: 0; }
-        .img-preview { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; background: #1a1a1a; border: 1px solid #444; }
-        
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .btn { border: none; border-radius: 12px; font-weight: 500; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
-        
-        .floating-save-circle { 
-            position: fixed; bottom: 30px; left: 20px; 
-            width: 65px; height: 65px; border-radius: 50%;
-            z-index: 1000; background: var(--main); color: white; 
-            font-size: 24px; box-shadow: 0 8px 25px var(--glow); 
-            border: 3px solid rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .floating-save-circle:hover { transform: scale(1.1) rotate(15deg); }
-        .floating-save-circle:active { transform: scale(0.9); }
-        .floating-save-circle.success { background: var(--green); transform: scale(1.1); }
-
-        .btn-add { background: transparent; color: var(--main); border: 2.5px dashed var(--main); padding: 12px; margin-bottom: 40px; border-radius: 20px; }
-        
-        .action-btns { display: flex; gap: 8px; margin-top: 12px; }
-        .btn-mini { padding: 8px; font-size: 12px; border-radius: 10px; flex: 1; }
-        .btn-hide { background: #444; color: #fff; }
-        .btn-hide.active { background: #ff9800; }
-        .btn-del { background: rgba(255, 82, 82, 0.1); color: var(--red); }
-
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .login-card { background: var(--white); padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 360px; border: 2px solid var(--main); text-align: center; }
-        
-        .nav-item { text-decoration: none; color: var(--dark); display: flex; align-items: center; padding: 15px 20px; margin-bottom: 10px; border-radius: 15px; font-size: 16px; transition: 0.3s; gap: 15px; }
-        .bottom-nav-box { margin-top: 30px; border-top: 1px solid #444; padding-top: 20px; text-align: center; }
-        .back-link-btn { display: inline-flex; align-items: center; gap: 8px; background: #333; color: #ccc; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-size: 14px; transition: 0.3s; }
-
-        #safePinInput {
-            font-size: 24px; text-align: center; letter-spacing: 10px; 
-            margin-bottom: 20px; background: #1a1a1a; color: var(--main); 
-            width: 100%; -webkit-text-security: disc;
-        }
-
-        .shop-info-card { background: rgba(157,129,225,0.1); border: 1px dashed var(--main); border-radius: 20px; padding: 15px; margin-top: 30px; font-size: 13px; color: #ddd; text-align: left; }
-        .shop-info-card h4 { color: var(--main); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-        .shop-info-card ul { list-style: none; padding-left: 5px; }
-        .shop-info-card li { margin-bottom: 5px; }
-        .shop-link { color: var(--main); text-decoration: none; font-size: 11px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>koyangi - Web Design & Graphic Services</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg-main: #ffe6f0;
+--paper: #ffffff;
+--text-dark: #8a516b;
+--text-light: #bd859b;
+--accent-pink: #eb7aa6;
+--accent-yellow: #fcf2b6;
+--mint: #a2dcd4;
+--peach: #ffc2b3;
+--sky: #b8e9ed;
+--line-color: rgba(235, 122, 166, 0.2);
+}
+body {
+background-color: var(--bg-main);
+background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
+font-family: 'Mitr', sans-serif;
+color: var(--text-dark);
+overflow-x: hidden;
+}
+.font-fredoka { font-family: 'Fredoka', sans-serif; }
+.paper-container {
+background-color: var(--paper);
+position: relative;
+background-image: repeating-linear-gradient(to bottom, transparent, transparent 35px, var(--line-color) 35px, var(--line-color) 36px);
+background-position: top 40px center;
+box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+.jagged-top {
+position: absolute;
+top: -12px; left: 0; width: 100%; height: 13px;
+background: linear-gradient(-45deg, transparent 9px, var(--paper) 0),
+linear-gradient(45deg, transparent 9px, var(--paper) 0);
+background-size: 18px 18px;
+background-repeat: repeat-x;
+}
+.jagged-bottom {
+position: absolute;
+bottom: -12px; left: 0; width: 100%; height: 13px;
+background: linear-gradient(-45deg, var(--paper) 9px, transparent 0),
+linear-gradient(45deg, var(--paper) 9px, transparent 0);
+background-size: 18px 18px;
+background-repeat: repeat-x;
+}
+.polaroid {
+background: #fff;
+padding: 8px 8px 35px 8px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+border: 1px solid #f5e6e6;
+position: relative;
+}
+@media (min-width: 640px) { .polaroid { padding: 10px 10px 45px 10px; } }
+.tape { position: absolute; mix-blend-mode: multiply; opacity: 0.85; z-index: 20; }
+.tape-1 { clip-path: polygon(1% 2%, 99% 0%, 98% 98%, 0% 100%); }
+.tape-2 { clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 2% 99%); }
+.tape-3 { clip-path: polygon(2% 1%, 98% 2%, 100% 99%, 0% 98%); }
+.bg-tape-pink { background-color: #ffb6c1; }
+.bg-tape-yellow { background-color: #fdf096; }
+.bg-tape-mint { background-color: #aee6e6; }
+.bg-tape-blue { background-color: #bce3f2; }
+@keyframes float-anim {
+0%, 100% { transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
+50% { transform: translateY(-6px) scale(1.05) rotate(calc(var(--rot, 0deg) + 5deg)); }
+}
+.decor-float { animation: float-anim 3.5s ease-in-out infinite; pointer-events: none; }
+.delay-1 { animation-delay: 0.5s; }
+.delay-2 { animation-delay: 1.5s; }
+.dotted-leader { flex-grow: 1; border-bottom: 2px dotted var(--text-light); margin: 0 8px; opacity: 0.3; transform: translateY(-4px); }
+.modal-overlay { background-color: rgba(138, 81, 107, 0.4); backdrop-filter: blur(4px); }
+.portfolio-card { cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.portfolio-card:hover { transform: translateY(-5px); }
+.link-item {
+display: block; width: 100%; padding: 12px; margin-bottom: 8px; background: white;
+border-radius: 12px; border: 1.5px solid var(--line-color); color: var(--text-dark);
+font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
+}
+.link-item:hover { background: var(--bg-main); border-color: var(--accent-pink); }
+</style>
 </head>
-<body>
+<body class="min-h-screen py-6 sm:py-10 px-2 sm:px-4 md:px-8 relative selection:bg-[#fcf2b6] selection:text-[#8a516b]">
 
-    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<svg class="decor-float delay-2 fixed top-10 left-5 w-10 h-10 text-[#a2dcd4] opacity-40 z-0" style="--rot: -12deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 
-    <nav class="sidebar" id="sidebar">
-        <a href="index.html" class="nav-item">🏠 หน้าหลัก</a>
-        <a href="portfolio.html" class="nav-item">📦 สินค้า</a>
-        <a href="contact.html" class="nav-item">💬 ติดต่อเรา</a>
-        <div onclick="toggleMenu()" class="nav-item active" style="cursor:pointer;">⚙️ ตั้งค่าระบบ</div>
-    </nav>
-
-    <!-- Login Overlay -->
-    <div id="login-overlay">
-        <div class="login-card">
-            <h3>🔐 Admin Access</h3>
-            <p style="font-size: 12px; color: var(--dark); margin-bottom: 15px;">กรุณากรอกรหัสผ่าน 4 หลัก</p>
-            <input type="tel" id="safePinInput" placeholder="••••" maxlength="4" autocomplete="off" inputmode="numeric" readonly onfocus="this.removeAttribute('readonly');">
-            <button class="btn" style="background:var(--main); color:white; padding:12px; margin-top:10px;" onclick="checkPass()">ปลดล็อกระบบ</button>
-        </div>
-    </div>
-
-    <!-- ปุ่มบันทึกวงกลมด้านซ้าย -->
-    <div class="floating-save-circle" id="saveCircle" onclick="saveData()" title="บันทึกข้อมูล">
-        💾
-    </div>
-
-    <div id="main-admin" class="admin-container" style="display:none;">
-        <div style="text-align:center; margin-bottom:30px;">
-            <!-- เพิ่มส่วนหัว Planner 2026 สไตล์ลายเซ็น -->
-            <span class="signature-title">Planner 2026</span>
-            <h1 style="color: var(--main);">🛠️ Control Panel</h1>
-            <p style="font-size: 13px; color: var(--dark);">อัปเดตสต็อกและสถานะสินค้า</p>
-        </div>
-
-        <div class="section-card">
-            <h3 style="color:var(--main); margin-bottom:15px;">📦 รายการสินค้า</h3>
-            <div id="stock-container"></div>
-            <button class="btn btn-add" onclick="addAppItem()">➕ เพิ่มสินค้าใหม่</button>
-        </div>
-
-        <!-- ข้อมูลร้านค้าของลูกค้า -->
-        <div class="shop-info-card">
-            <h4>🎀 ข้อมูลร้าน Koyangi</h4>
-            <p style="font-size: 12px; margin-bottom: 10px;">รับออกแบบป้าย ลายน้ำ Google Sheet เว็บไซต์⭐️</p>
-            
-            <div style="margin-bottom: 10px;">
-                <strong>🎨 งานที่รับทำ:</strong>
-                <ul style="margin-left: 15px;">
-                    <li>• ป้าย ลายน้ำ โลโก้ / Google Sheet / Website</li>
-                </ul>
-            </div>
-
-            <strong>⭐️ ตัวอย่างงาน:</strong>
-            <a href="https://julie-vwb.github.io/pinkjulie-land/" class="shop-link" target="_blank">🔗 ดูผลงานทั้งหมด คลิ๊ก</a>
-            
-            <div style="margin-top: 10px; display: flex; gap: 10px;">
-                <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" style="text-decoration:none; color:#4caf50;">🟢 Line</a>
-                <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" style="text-decoration:none; color:#3b5998;">🔵 FB</a>
+<div class="max-w-5xl mx-auto flex flex-col gap-8 sm:gap-12 items-center w-full">
+    
+    <!-- HEADER HERO SECTION -->
+    <div class="w-full flex flex-row justify-between items-stretch gap-2 sm:gap-10 mt-2 sm:mt-6 relative z-20 px-1 sm:px-4">
+        <!-- Left Services -->
+        <div class="relative flex-[1.6] sm:flex-1 flex flex-col">
+            <div class="absolute inset-0 bg-[#f5a9cb] transform rotate-[-1deg] translate-x-[-4px] translate-y-[6px] sm:translate-x-[-8px] sm:translate-y-[12px] opacity-80 z-0 rounded-md"></div>
+            <div class="bg-white relative z-10 p-3 sm:p-10 transform rotate-[-0.5deg] rounded-md shadow-sm border border-gray-100/50 flex-1 flex flex-col justify-center">
+                <div class="tape bg-tape-pink tape-1 -top-4 left-1/2 transform -translate-x-1/2 rotate-1 w-24 sm:w-32 h-6 sm:h-8"></div>
+                <svg class="decor-float absolute top-4 sm:top-8 right-4 sm:right-8 w-4 sm:w-6 h-4 sm:h-6 text-[#ffc2b3] opacity-80 z-20" style="--rot: 15deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <div class="space-y-2 sm:space-y-6 pt-2">
+                    <div>
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-[12px] sm:text-3xl uppercase tracking-tight leading-none">DESIGN SERVICES</h2>
+                        <p class="mt-1 sm:mt-3 text-[#8a516b] text-[9px] sm:text-base font-medium leading-tight">
+                            รับออกแบบป้าย ลายน้ำ Google Sheet เว็บไซต์ ⭐️
+                        </p>
+                    </div>
+                    <div class="text-[#bd859b] text-[8px] sm:text-sm leading-tight sm:leading-relaxed bg-[#fff8fb] p-2 sm:p-5 rounded-lg border border-[#f2adcc]/30 relative">
+                        <svg class="decor-float delay-1 absolute -top-2 -right-2 w-4 h-4 text-[#fcf2b6]" style="--rot: 25deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <p class="font-bold text-[#8a516b] mb-1 uppercase text-[8px] sm:text-xs">งานที่รับทำ:</p>
+                        <ul class="list-none space-y-0.5 sm:space-y-1.5 font-medium">
+                            <li>- ป้าย ลายน้ำ โลโก้</li>
+                            <li>- Google Sheet</li>
+                            <li>- Website</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="bottom-nav-box">
-            <a href="portfolio.html" class="back-link-btn">⬅️ กลับไปหน้าสินค้า</a>
-            <p style="font-size: 11px; color: #666; margin-top: 15px;">ระบบจะบันทึกลงใน Browser นี้เท่านั้น</p>
+        <!-- Right Polaroid (Badge & Logo) -->
+        <div class="relative flex-1 flex flex-col items-center shrink-0 pt-2">
+            <div class="relative bg-white border border-[#eb7aa6] sm:border-2 rounded-full px-2 sm:px-5 py-0.5 sm:py-1.5 mb-2 sm:mb-4 z-30 transform rotate-2 shadow-sm">
+                <span class="font-fredoka text-[#eb7aa6] text-[7px] sm:text-[11px] font-bold tracking-wide uppercase">KOYANGI SHOP</span>
+            </div>
+            <div class="polaroid transform rotate-[-3deg] w-full max-w-[110px] sm:max-w-[240px] z-10 border border-white sm:border-2">
+                <div class="tape bg-tape-mint tape-2 -top-3 left-1/2 transform -translate-x-1/2 rotate-2 w-12 sm:w-20 h-4 sm:h-6"></div>
+                <div class="tape bg-tape-yellow tape-3 -bottom-2 -left-2 transform -rotate-12 w-8 sm:w-12 h-3 sm:h-5"></div>
+                <div class="w-full aspect-[4/5] bg-[#fff9eb] overflow-hidden rounded-sm relative border border-[#f5e687]/30">
+                    <img src="logo_koyangi.png" alt="koyangi Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute bottom-1 sm:bottom-3 right-0 bg-[#8a516b] text-white px-2 sm:px-4 py-0.5 sm:py-1.5 text-[5px] sm:text-[9px] font-fredoka font-bold rounded-l-md tracking-tighter sm:tracking-widest shadow-md">
+                    WELCOME TO KOYANGI
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const PIN = "2546"; 
+    <!-- MAIN CONTENT -->
+    <div class="paper-container w-full rounded-sm pt-12 sm:pt-16 pb-16 sm:pb-20 px-4 sm:px-10 lg:px-16 z-10 relative mt-6 sm:mt-10">
+        <div class="jagged-top"></div>
+        <div class="jagged-bottom"></div>
+        <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-24 sm:w-36 h-6 sm:h-8 z-20"></div>
 
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-            document.querySelector('.hamburger').classList.toggle('active');
-        }
+        <div class="absolute -top-4 right-4 bg-white border-2 border-[#eb7aa6] rounded-full px-3 sm:px-5 py-1 z-20 flex items-center shadow-sm">
+            <span class="font-fredoka text-[#eb7aa6] text-[8px] sm:text-xs font-bold tracking-wider uppercase leading-none">CHECK QUEUE</span>
+        </div>
 
-        function checkPass() {
-            const input = document.getElementById("safePinInput");
-            if (input.value === PIN) {
-                sessionStorage.setItem("isLoggedIn", "true");
-                unlockAdmin();
-            } else { 
-                alert("❌ รหัสผ่านไม่ถูกต้อง!"); 
-                input.value = ""; 
-                input.focus();
-            }
-        }
+        <div class="mb-10 sm:mb-14 pt-2 relative z-10">
+            <h1 class="font-fredoka text-[#8a516b] text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none">KOYANGI</h1>
+            <div class="flex gap-2 mt-2 opacity-60">
+                <svg class="w-4 h-4 text-[#eb7aa6]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+        </div>
 
-        function unlockAdmin() {
-            document.getElementById("login-overlay").style.display = "none";
-            document.getElementById("main-admin").style.display = "block";
-            loadData();
-        }
-
-        function checkStockStatus(input) {
-            const item = input.closest('.stock-item');
-            const stockVal = parseInt(input.value);
-            if (stockVal <= 0 || isNaN(stockVal)) {
-                item.classList.add('out-of-stock');
-            } else {
-                item.classList.remove('out-of-stock');
-            }
-        }
-
-        function addAppItem(data = {}) {
-            const container = document.getElementById('stock-container');
-            const itemDiv = document.createElement('div');
-            
-            const {
-                name = '', price = '', stock = '', 
-                cat = 'streaming', img = 'https://via.placeholder.com/150', 
-                subCat = '', isHidden = false
-            } = data;
-
-            const outStockClass = (stock !== '' && parseInt(stock) <= 0) ? 'out-of-stock' : '';
-            itemDiv.className = `stock-item ${isHidden ? 'hidden-item' : ''} ${outStockClass}`;
-            itemDiv.dataset.hidden = isHidden;
-            
-            itemDiv.innerHTML = `
-                <div class="item-header">
-                    <div class="img-box">
-                        <img src="${img}" class="img-preview" data-base64="${img}">
-                        <input type="file" accept="image/*" style="display:none" onchange="handleFile(this)">
-                        <div style="position:absolute; bottom:-5px; right:-5px; background:var(--main); border-radius:50%; width:22px; height:22px; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; border: 2px solid #2d2d2d;" onclick="this.previousElementSibling.click()">📷</div>
+        <div class="space-y-12 sm:space-y-16">
+            <!-- 01. Portfolio Examples -->
+            <div class="schedule-item flex relative">
+                <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">01.</div>
+                <div class="flex-1">
+                    <div class="flex items-center w-full mb-6">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider">PORTFOLIO EXAMPLES</h2>
+                        <div class="dotted-leader"></div>
                     </div>
-                    <div style="flex-grow:1;">
-                        <select class="app-cat" style="margin-bottom:5px; height:35px; border-color:var(--main);">
-                            <option value="streaming" ${cat === 'streaming' ? 'selected' : ''}>📺 Streaming</option>
-                            <option value="working" ${cat === 'working' ? 'selected' : ''}>💼 Working</option>
-                            <option value="education" ${cat === 'education' ? 'selected' : ''}>🎓 Education</option>
-                        </select>
-                        <input type="text" class="app-subcat" placeholder="ชื่อแอป (เช่น Netflix)" value="${subCat}">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <a href="https://julie-vwb.github.io/pinkjulie-land/" target="_blank" class="link-item">Pinkjulie Land Example</a>
+                        <a href="https://julie-vwb.github.io/mahatep-shop/" target="_blank" class="link-item">Mahatep Shop Example</a>
+                        <a href="https://julie-vwb.github.io/babybear-design/" target="_blank" class="link-item">Babybear Design</a>
+                        <a href="https://julie-vwb.github.io/luna-webstudio/" target="_blank" class="link-item">Luna Webstudio</a>
                     </div>
                 </div>
-                
-                <input type="text" class="app-name" placeholder="ชื่อแพ็กเกจ (เช่น 30 วัน / 1 จอ)" value="${name}">
-                
-                <div class="form-grid">
-                    <div style="font-size:11px; color:var(--dark);">ราคา (฿)
-                        <input type="number" class="app-price" value="${price}" placeholder="ราคา">
-                    </div>
-                    <div style="font-size:11px; color:var(--dark);">สต็อก (ตัว)
-                        <input type="number" class="app-stock" value="${stock}" placeholder="สต็อก" oninput="checkStockStatus(this)">
+            </div>
+
+            <!-- 02. Steps & Rules -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+                <div class="flex">
+                    <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">02.</div>
+                    <div class="flex-1">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">How to order</h2>
+                        <div class="bg-[#e6f4f1] p-5 sm:p-6 rounded-2xl border-2 border-[#a2dcd4] text-xs sm:text-sm space-y-4">
+                            <ol class="list-decimal pl-5 space-y-2 text-[#5e968d] font-medium">
+                                <li>กรอกฟอร์ม เขียนรายละเอียดร้านค้า</li>
+                                <li>ใส่ลิงก์ ตัวอย่างงานมาให้พร้อม หากมีโลโก้ให้แนบมา</li>
+                                <li>ส่งงานให้เช็ค แจ้งยอด ชำระเงิน</li>
+                                <li>รอรับลิงก์ได้เลยค่า</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
-
-                <div class="action-btns">
-                    <button class="btn btn-mini btn-hide ${isHidden ? 'active' : ''}" onclick="toggleHide(this)">
-                        ${isHidden ? '👁️‍🗨️ ซ่อนอยู่' : '👁️ แสดงอยู่'}
-                    </button>
-                    <button class="btn btn-mini btn-del" onclick="if(confirm('ลบรายการนี้?')){this.closest('.stock-item').remove()}">🗑️ ลบ</button>
+                <div class="flex">
+                    <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">03.</div>
+                    <div class="flex-1">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">Shop Rules</h2>
+                        <div class="bg-[#fff5f2] p-5 sm:p-6 rounded-2xl border-2 border-[#ffc2b3] text-xs sm:text-sm space-y-3">
+                            <ul class="list-disc pl-5 space-y-2 font-medium text-[#d97762]">
+                                <li>โอนเงินแล้วไม่คืนเงินทุกกรณี</li>
+                                <li>ยกเลิกงานหลังส่งบรีฟ (เริ่มงานแล้ว) คืน 50%</li>
+                                <li>ยกเลิกหลังเช็คงาน ไม่คืนเงินและส่งงานปกติ</li>
+                                <li class="italic">รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            `;
-            container.appendChild(itemDiv);
-        }
+            </div>
 
-        function toggleHide(btn) {
-            const item = btn.closest('.stock-item');
-            const newState = !(item.dataset.hidden === "true");
-            item.dataset.hidden = newState;
-            item.classList.toggle('hidden-item', newState);
-            btn.classList.toggle('active', newState);
-            btn.innerHTML = newState ? '👁️‍🗨️ ซ่อนอยู่' : '👁️ แสดงอยู่';
-        }
+            <!-- 04. Contact -->
+            <div class="flex pt-6 relative">
+                <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">04.</div>
+                <div class="flex-1 relative z-10">
+                    <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-8">Contact Us</h2>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Facebook</a>
+                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Line</a>
+                        <a href="https://www.instagram.com/k0yangi_ii?igsh=ZDBnemRmNmI5amcy&utm_source=qr" target="_blank" class="bg-[#eb7aa6] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Instagram</a>
+                    </div>
+                    <div class="mt-14 relative flex justify-center">
+                        <p class="text-[#8a516b] text-sm font-bold italic text-center">ขอบคุณที่ไว้วางใจ koyangi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        function handleFile(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const preview = input.closest('.stock-item').querySelector('.img-preview');
-                    preview.src = e.target.result;
-                    preview.dataset.base64 = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function saveData() {
-            const products = [];
-            const oldData = JSON.parse(localStorage.getItem('shopData')) || {};
-            document.querySelectorAll('.stock-item').forEach(item => {
-                const previewImg = item.querySelector('.img-preview');
-                products.push({
-                    cat: item.querySelector('.app-cat').value,
-                    subCat: item.querySelector('.app-subcat').value,
-                    name: item.querySelector('.app-name').value,
-                    price: item.querySelector('.app-price').value,
-                    stock: item.querySelector('.app-stock').value,
-                    img: previewImg.dataset.base64 || previewImg.src,
-                    isHidden: item.dataset.hidden === "true"
-                });
-            });
-            const newData = { ...oldData, products: products };
-            localStorage.setItem('shopData', JSON.stringify(newData));
-            
-            const saveBtn = document.getElementById('saveCircle');
-            saveBtn.innerHTML = "✅";
-            saveBtn.classList.add('success');
-            setTimeout(() => {
-                saveBtn.innerHTML = "💾";
-                saveBtn.classList.remove('success');
-            }, 2000);
-        }
-
-        function loadData() {
-            const savedData = JSON.parse(localStorage.getItem('shopData'));
-            if(savedData && savedData.products) {
-                const container = document.getElementById('stock-container');
-                container.innerHTML = '';
-                savedData.products.forEach(p => addAppItem(p));
-            }
-        }
-
-        document.getElementById('safePinInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') checkPass();
-        });
-
-        window.onload = () => { 
-            if (sessionStorage.getItem("isLoggedIn") === "true") {
-                unlockAdmin();
-            }
-        };
-    </script>
+<script>
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = 'auto'; }
+window.onclick = function(event) { if (event.target.classList.contains('modal-overlay')) { event.target.classList.add('hidden'); document.body.style.overflow = 'auto'; } }
+</script>
 </body>
 </html>
