@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>koyangi - Web Design & Graphic Services</title>
+<title>koyangi - Services</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +13,11 @@
 --bg-main: #ffe6f0;
 --paper: #ffffff;
 --text-dark: #8a516b;
---text-darker: #5d3346;
 --text-light: #bd859b;
 --accent-pink: #eb7aa6;
 --accent-yellow: #fcf2b6;
 --mint: #a2dcd4;
 --peach: #ffc2b3;
---sky: #b8e9ed;
 --line-color: rgba(235, 122, 166, 0.2);
 }
 body {
@@ -32,12 +30,12 @@ overflow-x: hidden;
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* ทำให้ Planner2026 เด่นเป็นพิเศษ */
+/* Planner2026 Highlight */
 .planner-highlight {
-    font-size: clamp(3rem, 10vw, 6rem);
+    font-size: clamp(4rem, 15vw, 8rem);
     line-height: 1;
-    text-shadow: 4px 4px 0px var(--accent-yellow);
-    filter: drop-shadow(2px 2px 5px rgba(235, 122, 166, 0.3));
+    text-shadow: 5px 5px 0px var(--accent-yellow);
+    filter: drop-shadow(3px 3px 10px rgba(235, 122, 166, 0.4));
 }
 
 .paper-container {
@@ -63,27 +61,17 @@ linear-gradient(45deg, var(--paper) 9px, transparent 0);
 background-size: 18px 18px;
 background-repeat: repeat-x;
 }
-.polaroid {
-background: #fff;
-padding: 8px 8px 35px 8px;
-box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-border: 1px solid #f5e6e6;
-position: relative;
-}
-@media (min-width: 640px) { .polaroid { padding: 10px 10px 45px 10px; } }
 .tape { position: absolute; mix-blend-mode: multiply; opacity: 0.85; z-index: 20; }
 .tape-1 { clip-path: polygon(1% 2%, 99% 0%, 98% 98%, 0% 100%); }
 .tape-2 { clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 2% 99%); }
-.tape-3 { clip-path: polygon(2% 1%, 98% 2%, 100% 99%, 0% 98%); }
 .bg-tape-pink { background-color: #ffb6c1; }
 .bg-tape-yellow { background-color: #fdf096; }
-.bg-tape-mint { background-color: #aee6e6; }
 
 @keyframes float-anim {
-0%, 100% { transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
-50% { transform: translateY(-6px) scale(1.05) rotate(calc(var(--rot, 0deg) + 5deg)); }
+0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+50% { transform: translateY(-10px) rotate(calc(var(--rot, 0deg) + 5deg)); }
 }
-.decor-float { animation: float-anim 3.5s ease-in-out infinite; pointer-events: none; }
+.decor-float { animation: float-anim 4s ease-in-out infinite; pointer-events: none; }
 .dotted-leader { flex-grow: 1; border-bottom: 2px dotted var(--text-light); margin: 0 8px; opacity: 0.3; transform: translateY(-4px); }
 .link-item {
 display: block; width: 100%; padding: 12px; margin-bottom: 8px; background: white;
@@ -93,67 +81,39 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
 .link-item:hover { background: var(--bg-main); border-color: var(--accent-pink); }
 </style>
 </head>
-<body class="min-h-screen py-6 sm:py-10 px-2 sm:px-4 md:px-8 relative selection:bg-[#fcf2b6] selection:text-[#8a516b]">
+<body class="min-h-screen py-10 px-4 md:px-8 relative selection:bg-[#fcf2b6]">
 
-<div class="max-w-5xl mx-auto flex flex-col gap-8 sm:gap-12 items-center w-full">
+<div class="max-w-4xl mx-auto flex flex-col items-center w-full">
     
-    <!-- HEADER HERO SECTION -->
-    <div class="w-full flex flex-col sm:flex-row justify-between items-center sm:items-stretch gap-6 sm:gap-10 mt-2 sm:mt-6 relative z-20 px-1 sm:px-4">
-        
-        <!-- Left Section (Planner2026 Only) -->
-        <div class="relative flex-[1.6] w-full flex items-center justify-center sm:justify-start">
-            <div class="relative z-10 transform -rotate-3">
-                <div class="tape bg-tape-pink tape-1 -top-8 left-1/4 rotate-12 w-24 h-8 opacity-60"></div>
-                <!-- คำว่า Planner2026 เด่นที่สุด -->
-                <span class="font-signature planner-highlight text-[#eb7aa6] block">
-                    Planner2026
-                </span>
-                <svg class="decor-float absolute -top-4 -right-8 w-8 h-8 text-[#fcf2b6]" style="--rot: 20deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-        </div>
-
-        <!-- Right Polaroid -->
-        <div class="relative flex-1 flex flex-col items-center shrink-0 pt-2">
-            <div class="relative bg-white border border-[#eb7aa6] sm:border-2 rounded-full px-2 sm:px-5 py-0.5 sm:py-1.5 mb-2 sm:mb-4 z-30 transform rotate-2 shadow-sm">
-                <span class="font-fredoka text-[#eb7aa6] text-[7px] sm:text-[11px] font-bold tracking-wide uppercase">KOYANGI SHOP</span>
-            </div>
-            <div class="polaroid transform rotate-[3deg] w-full max-w-[140px] sm:max-w-[240px] z-10 border border-white sm:border-2">
-                <div class="tape bg-tape-mint tape-2 -top-3 left-1/2 transform -translate-x-1/2 rotate-2 w-12 sm:w-20 h-4 sm:h-6"></div>
-                <div class="w-full aspect-[4/5] bg-[#fff9eb] overflow-hidden rounded-sm relative border border-[#f5e687]/30">
-                    <img src="logo_koyangi.png" alt="koyangi Logo" class="w-full h-full object-cover">
-                </div>
-                <div class="absolute bottom-1 sm:bottom-3 right-0 bg-[#8a516b] text-white px-2 sm:px-4 py-0.5 sm:py-1.5 text-[5px] sm:text-[9px] font-fredoka font-bold rounded-l-md shadow-md">
-                    WELCOME TO KOYANGI
-                </div>
-            </div>
+    <!-- HEADER SECTION (Planner2026 Only) -->
+    <div class="w-full flex justify-center items-center py-12 sm:py-20 relative z-20">
+        <div class="relative transform -rotate-2">
+            <div class="tape bg-tape-pink tape-1 -top-12 left-0 rotate-6 w-32 h-10 opacity-50"></div>
+            <h1 class="font-signature planner-highlight text-[#eb7aa6] text-center">
+                Planner2026
+            </h1>
+            <svg class="decor-float absolute -top-10 -right-12 w-12 h-12 text-[#fcf2b6]" style="--rot: 15deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="paper-container w-full rounded-sm pt-12 sm:pt-16 pb-16 sm:pb-20 px-4 sm:px-10 lg:px-16 z-10 relative mt-6 sm:mt-10">
+    <!-- MAIN CONTENT CARD -->
+    <div class="paper-container w-full rounded-sm pt-16 pb-20 px-6 sm:px-12 lg:px-20 z-10 relative mt-4">
         <div class="jagged-top"></div>
         <div class="jagged-bottom"></div>
-        <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-24 sm:w-36 h-6 sm:h-8 z-20"></div>
+        <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-36 h-10 z-20"></div>
 
         <!-- Status Bar -->
-        <div class="absolute -top-4 right-4 bg-white border-2 border-[#eb7aa6] rounded-full px-3 sm:px-5 py-1 z-20 flex items-center shadow-sm">
-            <span class="font-fredoka text-[#eb7aa6] text-[8px] sm:text-xs font-bold tracking-wider uppercase leading-none">CHECK QUEUE</span>
+        <div class="absolute -top-4 right-8 bg-white border-2 border-[#eb7aa6] rounded-full px-6 py-1.5 z-20 shadow-sm">
+            <span class="font-fredoka text-[#eb7aa6] text-xs sm:text-sm font-bold tracking-widest uppercase leading-none">CHECK QUEUE</span>
         </div>
 
-        <div class="mb-10 sm:mb-14 pt-2 relative z-10">
-            <h1 class="font-fredoka text-[#8a516b] text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none">KOYANGI</h1>
-            <div class="flex gap-2 mt-2 opacity-60">
-                <svg class="w-4 h-4 text-[#eb7aa6]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </div>
-        </div>
-
-        <div class="space-y-12 sm:space-y-16">
-            <!-- 01. Portfolio Examples -->
-            <div class="schedule-item flex relative">
-                <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">01.</div>
+        <div class="space-y-16">
+            <!-- 01. Portfolio -->
+            <div class="flex relative">
+                <div class="w-10 sm:w-16 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl sm:text-3xl">01.</div>
                 <div class="flex-1">
-                    <div class="flex items-center w-full mb-6">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider">PORTFOLIO EXAMPLES</h2>
+                    <div class="flex items-center w-full mb-8">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg sm:text-2xl uppercase tracking-wider">PORTFOLIO EXAMPLES</h2>
                         <div class="dotted-leader"></div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -166,15 +126,15 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
             </div>
 
             <!-- 02. Steps & Rules -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
                 <div class="flex">
-                    <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">02.</div>
+                    <div class="w-10 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl">02.</div>
                     <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">How to order</h2>
-                        <div class="bg-[#e6f4f1] p-5 sm:p-6 rounded-2xl border-2 border-[#a2dcd4] text-xs sm:text-sm space-y-4">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg uppercase tracking-wider mb-6">How to order</h2>
+                        <div class="bg-[#e6f4f1] p-6 rounded-2xl border-2 border-[#a2dcd4] text-sm space-y-4">
                             <ol class="list-decimal pl-5 space-y-2 text-[#5e968d] font-medium">
                                 <li>กรอกฟอร์ม เขียนรายละเอียดร้านค้า</li>
-                                <li>ใส่ลิงก์ ตัวอย่างงานมาให้พร้อม หากมีโลโก้ให้แนบมา</li>
+                                <li>ใส่ลิงก์ ตัวอย่างงานมาให้พร้อม</li>
                                 <li>ส่งงานให้เช็ค แจ้งยอด ชำระเงิน</li>
                                 <li>รอรับลิงก์ได้เลยค่า</li>
                             </ol>
@@ -182,15 +142,14 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
                     </div>
                 </div>
                 <div class="flex">
-                    <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">03.</div>
+                    <div class="w-10 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl">03.</div>
                     <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">Shop Rules</h2>
-                        <div class="bg-[#fff5f2] p-5 sm:p-6 rounded-2xl border-2 border-[#ffc2b3] text-xs sm:text-sm space-y-3">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg uppercase tracking-wider mb-6">Shop Rules</h2>
+                        <div class="bg-[#fff5f2] p-6 rounded-2xl border-2 border-[#ffc2b3] text-sm space-y-3">
                             <ul class="list-disc pl-5 space-y-2 font-medium text-[#d97762]">
                                 <li>โอนเงินแล้วไม่คืนเงินทุกกรณี</li>
-                                <li>ยกเลิกงานหลังส่งบรีฟ (เริ่มงานแล้ว) คืน 50%</li>
-                                <li>ยกเลิกหลังจากเช็คงาน = ไม่คืน และส่งงานให้ตามปกติ</li>
-                                <li class="italic">รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
+                                <li>ยกเลิกงานหลังเริ่มแล้ว คืน 50%</li>
+                                <li>รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
                             </ul>
                         </div>
                     </div>
@@ -199,16 +158,16 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
 
             <!-- 04. Contact -->
             <div class="flex pt-6 relative">
-                <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">04.</div>
+                <div class="w-10 sm:w-16 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl sm:text-3xl">04.</div>
                 <div class="flex-1 relative z-10">
-                    <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-8">Contact Us</h2>
+                    <h2 class="font-fredoka text-[#8a516b] font-bold text-lg sm:text-2xl uppercase tracking-wider mb-10">Contact Us</h2>
                     <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Facebook</a>
-                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Line</a>
-                        <a href="https://www.instagram.com/k0yangi_ii?igsh=ZDBnemRmNmI5amcy&utm_source=qr" target="_blank" class="bg-[#eb7aa6] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Instagram</a>
+                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:opacity-90">Facebook</a>
+                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:bg-[#8a516b] hover:text-white">Line</a>
+                        <a href="https://www.instagram.com/k0yangi_ii" target="_blank" class="bg-[#eb7aa6] text-white px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:opacity-90">Instagram</a>
                     </div>
-                    <div class="mt-14 relative flex justify-center">
-                        <p class="text-[#8a516b] text-sm font-bold italic text-center">ขอบคุณที่ไว้วางใจ koyangi</p>
+                    <div class="mt-20 flex justify-center">
+                        <p class="text-[#8a516b] text-sm font-bold italic opacity-60">Thank you for your support</p>
                     </div>
                 </div>
             </div>
@@ -216,10 +175,5 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
     </div>
 </div>
 
-<script>
-// Logic preserved for consistency
-function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
-function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = 'auto'; }
-</script>
 </body>
 </html>
