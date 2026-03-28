@@ -7,12 +7,14 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- เพิ่มฟอนต์ลายเซ็นต์ (Dancing Script) -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Mitr:wght@300;400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
 :root {
 --bg-main: #ffe6f0;
 --paper: #ffffff;
 --text-dark: #8a516b;
+--text-darker: #5d3346;
 --text-light: #bd859b;
 --accent-pink: #eb7aa6;
 --accent-yellow: #fcf2b6;
@@ -29,6 +31,9 @@ color: var(--text-dark);
 overflow-x: hidden;
 }
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
+/* คลาสสำหรับฟอนต์ลายเซ็นต์ */
+.font-signature { font-family: 'Dancing Script', cursive; }
+
 .paper-container {
 background-color: var(--paper);
 position: relative;
@@ -103,7 +108,9 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
                 <svg class="decor-float absolute top-4 sm:top-8 right-4 sm:right-8 w-4 sm:w-6 h-4 sm:h-6 text-[#ffc2b3] opacity-80 z-20" style="--rot: 15deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 <div class="space-y-2 sm:space-y-6 pt-2">
                     <div>
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-[12px] sm:text-3xl uppercase tracking-tight leading-none">DESIGN SERVICES</h2>
+                        <!-- เพิ่ม Planner2026 ฟอนต์ลายเซ็นต์ตรงนี้ -->
+                        <span class="font-signature text-xl sm:text-3xl text-[#eb7aa6] block mb-[-10px] sm:mb-[-15px] ml-1 opacity-90">Planner2026</span>
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-[12px] sm:text-3xl uppercase tracking-tight leading-none relative z-10">DESIGN SERVICES</h2>
                         <p class="mt-1 sm:mt-3 text-[#8a516b] text-[9px] sm:text-base font-medium leading-tight">
                             รับออกแบบป้าย ลายน้ำ Google Sheet เว็บไซต์ ⭐️
                         </p>
@@ -145,6 +152,7 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
         <div class="jagged-bottom"></div>
         <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-24 sm:w-36 h-6 sm:h-8 z-20"></div>
 
+        <!-- Status Bar (คงไว้ตามเงื่อนไข) -->
         <div class="absolute -top-4 right-4 bg-white border-2 border-[#eb7aa6] rounded-full px-3 sm:px-5 py-1 z-20 flex items-center shadow-sm">
             <span class="font-fredoka text-[#eb7aa6] text-[8px] sm:text-xs font-bold tracking-wider uppercase leading-none">CHECK QUEUE</span>
         </div>
@@ -198,7 +206,7 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
                             <ul class="list-disc pl-5 space-y-2 font-medium text-[#d97762]">
                                 <li>โอนเงินแล้วไม่คืนเงินทุกกรณี</li>
                                 <li>ยกเลิกงานหลังส่งบรีฟ (เริ่มงานแล้ว) คืน 50%</li>
-                                <li>ยกเลิกหลังเช็คงาน ไม่คืนเงินและส่งงานปกติ</li>
+                                <li>ยกเลิกหลังจากเช็คงาน = ไม่คืน และส่งงานให้ตามปกติ</li>
                                 <li class="italic">รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
                             </ul>
                         </div>
@@ -232,3 +240,4 @@ window.onclick = function(event) { if (event.target.classList.contains('modal-ov
 </script>
 </body>
 </html>
+
