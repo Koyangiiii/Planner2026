@@ -2,8 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>koyangi - Services</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Planner2026 - Services</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,12 +13,9 @@
 --bg-main: #ffe6f0;
 --paper: #ffffff;
 --text-dark: #8a516b;
---text-light: #bd859b;
 --accent-pink: #eb7aa6;
 --accent-yellow: #fcf2b6;
---mint: #a2dcd4;
---peach: #ffc2b3;
---line-color: rgba(235, 122, 166, 0.2);
+--line-color: rgba(235, 122, 166, 0.15);
 }
 body {
 background-color: var(--bg-main);
@@ -26,153 +23,162 @@ background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ff
 font-family: 'Mitr', sans-serif;
 color: var(--text-dark);
 overflow-x: hidden;
+width: 100%;
 }
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* Planner2026 Highlight */
+/* ปรับขนาดตัวอักษรให้พอดีกับหน้าจอ */
 .planner-highlight {
-    font-size: clamp(4rem, 15vw, 8rem);
-    line-height: 1;
-    text-shadow: 5px 5px 0px var(--accent-yellow);
-    filter: drop-shadow(3px 3px 10px rgba(235, 122, 166, 0.4));
+    font-size: clamp(3.5rem, 18vw, 7.5rem);
+    line-height: 1.1;
+    text-shadow: 3px 3px 0px var(--accent-yellow);
+    filter: drop-shadow(2px 2px 8px rgba(235, 122, 166, 0.3));
+    display: inline-block;
 }
 
 .paper-container {
 background-color: var(--paper);
 position: relative;
-background-image: repeating-linear-gradient(to bottom, transparent, transparent 35px, var(--line-color) 35px, var(--line-color) 36px);
+background-image: repeating-linear-gradient(to bottom, transparent, transparent 31px, var(--line-color) 31px, var(--line-color) 32px);
 background-position: top 40px center;
-box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+width: 100%;
+max-width: 100%;
 }
+
 .jagged-top {
 position: absolute;
-top: -12px; left: 0; width: 100%; height: 13px;
-background: linear-gradient(-45deg, transparent 9px, var(--paper) 0),
-linear-gradient(45deg, transparent 9px, var(--paper) 0);
-background-size: 18px 18px;
-background-repeat: repeat-x;
+top: -10px; left: 0; width: 100%; height: 11px;
+background: linear-gradient(-45deg, transparent 8px, var(--paper) 0),
+linear-gradient(45deg, transparent 8px, var(--paper) 0);
+background-size: 16px 16px;
 }
+
 .jagged-bottom {
 position: absolute;
-bottom: -12px; left: 0; width: 100%; height: 13px;
-background: linear-gradient(-45deg, var(--paper) 9px, transparent 0),
-linear-gradient(45deg, var(--paper) 9px, transparent 0);
-background-size: 18px 18px;
-background-repeat: repeat-x;
+bottom: -10px; left: 0; width: 100%; height: 11px;
+background: linear-gradient(-45deg, var(--paper) 8px, transparent 0),
+linear-gradient(45deg, var(--paper) 8px, transparent 0);
+background-size: 16px 16px;
 }
-.tape { position: absolute; mix-blend-mode: multiply; opacity: 0.85; z-index: 20; }
-.tape-1 { clip-path: polygon(1% 2%, 99% 0%, 98% 98%, 0% 100%); }
-.tape-2 { clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 2% 99%); }
-.bg-tape-pink { background-color: #ffb6c1; }
-.bg-tape-yellow { background-color: #fdf096; }
 
-@keyframes float-anim {
-0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-50% { transform: translateY(-10px) rotate(calc(var(--rot, 0deg) + 5deg)); }
-}
-.decor-float { animation: float-anim 4s ease-in-out infinite; pointer-events: none; }
-.dotted-leader { flex-grow: 1; border-bottom: 2px dotted var(--text-light); margin: 0 8px; opacity: 0.3; transform: translateY(-4px); }
+.tape { position: absolute; mix-blend-mode: multiply; opacity: 0.8; z-index: 20; }
+.tape-pink { background-color: #ffb6c1; clip-path: polygon(1% 2%, 99% 0%, 98% 98%, 0% 100%); }
+.tape-yellow { background-color: #fdf096; clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 2% 99%); }
+
 .link-item {
-display: block; width: 100%; padding: 12px; margin-bottom: 8px; background: white;
-border-radius: 12px; border: 1.5px solid var(--line-color); color: var(--text-dark);
-font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
+display: flex; align-items: center; justify-content: center;
+width: 100%; padding: 14px 10px; margin-bottom: 10px; background: white;
+border-radius: 15px; border: 1.5px solid var(--line-color); 
+font-size: 0.9rem; transition: all 0.2s; font-weight: 500;
 }
-.link-item:hover { background: var(--bg-main); border-color: var(--accent-pink); }
+.link-item:hover { transform: scale(1.02); background: #fff9fb; border-color: var(--accent-pink); }
+
+.dotted-leader { flex-grow: 1; border-bottom: 2px dotted var(--accent-pink); opacity: 0.2; margin: 0 10px; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.float-icon { animation: float 3s ease-in-out infinite; }
 </style>
 </head>
-<body class="min-h-screen py-10 px-4 md:px-8 relative selection:bg-[#fcf2b6]">
+<body class="min-h-screen flex justify-center items-start">
 
-<div class="max-w-4xl mx-auto flex flex-col items-center w-full">
+<div class="w-full max-w-[95%] sm:max-w-4xl flex flex-col items-center py-6 md:py-12">
     
-    <!-- HEADER SECTION (Planner2026 Only) -->
-    <div class="w-full flex justify-center items-center py-12 sm:py-20 relative z-20">
-        <div class="relative transform -rotate-2">
-            <div class="tape bg-tape-pink tape-1 -top-12 left-0 rotate-6 w-32 h-10 opacity-50"></div>
-            <h1 class="font-signature planner-highlight text-[#eb7aa6] text-center">
+    <!-- HEADER -->
+    <header class="w-full text-center mb-8 md:mb-12 relative px-4">
+        <div class="relative inline-block transform -rotate-2">
+            <div class="tape tape-pink -top-8 left-0 w-24 h-8 opacity-40"></div>
+            <h1 class="font-signature planner-highlight text-[#eb7aa6]">
                 Planner2026
             </h1>
-            <svg class="decor-float absolute -top-10 -right-12 w-12 h-12 text-[#fcf2b6]" style="--rot: 15deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="float-icon absolute -top-4 -right-8 text-2xl">✨</span>
         </div>
-    </div>
+    </header>
 
-    <!-- MAIN CONTENT CARD -->
-    <div class="paper-container w-full rounded-sm pt-16 pb-20 px-6 sm:px-12 lg:px-20 z-10 relative mt-4">
+    <!-- MAIN CARD -->
+    <main class="paper-container rounded-sm px-5 py-12 md:px-12 md:py-16">
         <div class="jagged-top"></div>
         <div class="jagged-bottom"></div>
-        <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-36 h-10 z-20"></div>
-
+        
         <!-- Status Bar -->
-        <div class="absolute -top-4 right-8 bg-white border-2 border-[#eb7aa6] rounded-full px-6 py-1.5 z-20 shadow-sm">
-            <span class="font-fredoka text-[#eb7aa6] text-xs sm:text-sm font-bold tracking-widest uppercase leading-none">CHECK QUEUE</span>
+        <div class="absolute -top-3 right-4 md:right-10 bg-white border-2 border-[#eb7aa6] rounded-full px-4 py-1 z-20 shadow-sm">
+            <span class="font-fredoka text-[#eb7aa6] text-[10px] md:text-xs font-bold tracking-widest uppercase">AVAILABLE</span>
         </div>
 
-        <div class="space-y-16">
-            <!-- 01. Portfolio -->
-            <div class="flex relative">
-                <div class="w-10 sm:w-16 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl sm:text-3xl">01.</div>
+        <div class="space-y-12 md:space-y-20">
+            
+            <!-- SECTION 01: Portfolio -->
+            <section class="flex flex-col md:flex-row gap-4">
+                <div class="font-fredoka text-[#eb7aa6] font-bold text-3xl md:text-4xl">01.</div>
                 <div class="flex-1">
-                    <div class="flex items-center w-full mb-8">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg sm:text-2xl uppercase tracking-wider">PORTFOLIO EXAMPLES</h2>
+                    <div class="flex items-center mb-6">
+                        <h2 class="font-fredoka text-lg md:text-xl font-bold tracking-wider uppercase">Portfolio</h2>
                         <div class="dotted-leader"></div>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <a href="https://julie-vwb.github.io/pinkjulie-land/" target="_blank" class="link-item">Pinkjulie Land Example</a>
-                        <a href="https://julie-vwb.github.io/mahatep-shop/" target="_blank" class="link-item">Mahatep Shop Example</a>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                        <a href="https://julie-vwb.github.io/pinkjulie-land/" target="_blank" class="link-item">Pinkjulie Land</a>
+                        <a href="https://julie-vwb.github.io/mahatep-shop/" target="_blank" class="link-item">Mahatep Shop</a>
                         <a href="https://julie-vwb.github.io/babybear-design/" target="_blank" class="link-item">Babybear Design</a>
                         <a href="https://julie-vwb.github.io/luna-webstudio/" target="_blank" class="link-item">Luna Webstudio</a>
                     </div>
                 </div>
+            </section>
+
+            <!-- SECTION 02 & 03: Combined on Desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- How to Order -->
+                <section class="flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="font-fredoka text-[#eb7aa6] font-bold text-2xl">02.</span>
+                        <h2 class="font-fredoka text-base font-bold uppercase tracking-wider">How to order</h2>
+                    </div>
+                    <div class="bg-[#f0f9f8] p-5 rounded-2xl border-b-4 border-[#a2dcd4] text-sm leading-relaxed">
+                        <ul class="space-y-2 text-[#4a7a73]">
+                            <li>📝 กรอกฟอร์มรายละเอียดร้านค้า</li>
+                            <li>🔗 แนบลิงก์ตัวอย่างที่ต้องการ</li>
+                            <li>💰 ส่งงานเช็คและชำระเงิน</li>
+                            <li>📩 รอรับลิงก์ใช้งานได้เลย</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Rules -->
+                <section class="flex flex-col gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="font-fredoka text-[#eb7aa6] font-bold text-2xl">03.</span>
+                        <h2 class="font-fredoka text-base font-bold uppercase tracking-wider">Shop Rules</h2>
+                    </div>
+                    <div class="bg-[#fff8f6] p-5 rounded-2xl border-b-4 border-[#ffc2b3] text-sm leading-relaxed">
+                        <ul class="space-y-2 text-[#8c5a4f]">
+                            <li>❌ โอนแล้วไม่คืนเงินทุกกรณี</li>
+                            <li>⚠️ ยกเลิกหลังเริ่มงาน คืนเงิน 50%</li>
+                            <li>⏰ งานปกติ 4-8 ชม. / งานเร่งด่วนราคา x2</li>
+                        </ul>
+                    </div>
+                </section>
             </div>
 
-            <!-- 02. Steps & Rules -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
-                <div class="flex">
-                    <div class="w-10 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl">02.</div>
-                    <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg uppercase tracking-wider mb-6">How to order</h2>
-                        <div class="bg-[#e6f4f1] p-6 rounded-2xl border-2 border-[#a2dcd4] text-sm space-y-4">
-                            <ol class="list-decimal pl-5 space-y-2 text-[#5e968d] font-medium">
-                                <li>กรอกฟอร์ม เขียนรายละเอียดร้านค้า</li>
-                                <li>ใส่ลิงก์ ตัวอย่างงานมาให้พร้อม</li>
-                                <li>ส่งงานให้เช็ค แจ้งยอด ชำระเงิน</li>
-                                <li>รอรับลิงก์ได้เลยค่า</li>
-                            </ol>
-                        </div>
-                    </div>
+            <!-- SECTION 04: Contact -->
+            <section class="text-center pt-6">
+                <div class="flex items-center justify-center mb-8">
+                    <div class="dotted-leader"></div>
+                    <h2 class="font-fredoka text-[#eb7aa6] font-bold text-xl px-4 uppercase">Contact</h2>
+                    <div class="dotted-leader"></div>
                 </div>
-                <div class="flex">
-                    <div class="w-10 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl">03.</div>
-                    <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-lg uppercase tracking-wider mb-6">Shop Rules</h2>
-                        <div class="bg-[#fff5f2] p-6 rounded-2xl border-2 border-[#ffc2b3] text-sm space-y-3">
-                            <ul class="list-disc pl-5 space-y-2 font-medium text-[#d97762]">
-                                <li>โอนเงินแล้วไม่คืนเงินทุกกรณี</li>
-                                <li>ยกเลิกงานหลังเริ่มแล้ว คืน 50%</li>
-                                <li>รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 px-4">
+                    <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white py-3 px-8 rounded-full text-xs font-bold uppercase shadow-sm hover:opacity-90">Facebook</a>
+                    <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] py-3 px-8 rounded-full text-xs font-bold uppercase hover:bg-[#8a516b] hover:text-white transition-all">Line Official</a>
+                    <a href="https://www.instagram.com/k0yangi_ii" target="_blank" class="bg-[#eb7aa6] text-white py-3 px-8 rounded-full text-xs font-bold uppercase shadow-sm hover:opacity-90">Instagram</a>
                 </div>
-            </div>
+                <p class="mt-12 text-[#bd859b] text-xs font-medium italic">Handcrafted with heart by Planner2026</p>
+            </section>
 
-            <!-- 04. Contact -->
-            <div class="flex pt-6 relative">
-                <div class="w-10 sm:w-16 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-2xl sm:text-3xl">04.</div>
-                <div class="flex-1 relative z-10">
-                    <h2 class="font-fredoka text-[#8a516b] font-bold text-lg sm:text-2xl uppercase tracking-wider mb-10">Contact Us</h2>
-                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:opacity-90">Facebook</a>
-                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:bg-[#8a516b] hover:text-white">Line</a>
-                        <a href="https://www.instagram.com/k0yangi_ii" target="_blank" class="bg-[#eb7aa6] text-white px-10 py-4 rounded-full text-xs font-bold shadow-md uppercase transition hover:opacity-90">Instagram</a>
-                    </div>
-                    <div class="mt-20 flex justify-center">
-                        <p class="text-[#8a516b] text-sm font-bold italic opacity-60">Thank you for your support</p>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    </main>
 </div>
 
 </body>
