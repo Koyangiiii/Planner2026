@@ -28,7 +28,33 @@ width: 100%;
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* ปรับขนาดตัวอักษรให้พอดีกับหน้าจอ */
+/* Menu Button Style */
+.menu-circle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--paper);
+    border: 2px solid var(--accent-pink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-pink);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(235, 122, 166, 0.2);
+    z-index: 100;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.menu-circle:hover {
+    background-color: var(--accent-pink);
+    color: white;
+    transform: scale(1.1) rotate(15deg);
+}
+
 .planner-highlight {
     font-size: clamp(3.5rem, 18vw, 7.5rem);
     line-height: 1.1;
@@ -86,6 +112,11 @@ font-size: 0.9rem; transition: all 0.2s; font-weight: 500;
 </head>
 <body class="min-h-screen flex justify-center items-start">
 
+<!-- ปุ่มไปหน้า Menu -->
+<a href="menu.html" class="menu-circle" title="Go to Menu">
+    <span>►</span>
+</a>
+
 <div class="w-full max-w-[95%] sm:max-w-4xl flex flex-col items-center py-6 md:py-12">
     
     <!-- HEADER -->
@@ -128,9 +159,8 @@ font-size: 0.9rem; transition: all 0.2s; font-weight: 500;
                 </div>
             </section>
 
-            <!-- SECTION 02 & 03: Combined on Desktop -->
+            <!-- SECTION 02 & 03: How to Order & Rules -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <!-- How to Order -->
                 <section class="flex flex-col gap-3">
                     <div class="flex items-center gap-3">
                         <span class="font-fredoka text-[#eb7aa6] font-bold text-2xl">02.</span>
@@ -146,7 +176,6 @@ font-size: 0.9rem; transition: all 0.2s; font-weight: 500;
                     </div>
                 </section>
 
-                <!-- Rules -->
                 <section class="flex flex-col gap-3">
                     <div class="flex items-center gap-3">
                         <span class="font-fredoka text-[#eb7aa6] font-bold text-2xl">03.</span>
