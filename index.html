@@ -31,12 +31,11 @@ margin: 0;
 
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* Container หลักจัดวางแนวตั้ง */
 .main-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 45px; 
+    gap: 50px; 
     text-align: center;
     width: 100%;
 }
@@ -53,54 +52,42 @@ margin: 0;
     z-index: 10;
 }
 
-/* ปุ่ม Next Track (ไปหน้าเมนู) */
-.music-btn-next {
-    width: 95px;
-    height: 95px;
+/* ปุ่มวงกลมและสามเหลี่ยม */
+.btn-next-circle {
+    width: 100px;
+    height: 100px;
     background-color: var(--paper);
-    border: 3.5px solid var(--accent-pink);
+    border: 4px solid var(--accent-pink);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent-pink);
-    box-shadow: 0 8px 25px rgba(235, 122, 166, 0.25);
+    box-shadow: 0 10px 25px rgba(235, 122, 166, 0.3);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-decoration: none;
-    position: relative;
+    cursor: pointer;
 }
 
-/* ไอคอนเครื่องเล่นเพลง (Next Track) */
-.icon-next {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    margin-left: 6px; 
+.triangle-right {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 32px solid var(--accent-pink);
+    margin-left: 8px; 
+    transition: all 0.3s ease;
 }
 
-.icon-next .arrow {
-    font-size: 2.5rem;
-    line-height: 1;
-}
-
-.icon-next .bar {
-    width: 6px;
-    height: 30px;
+.btn-next-circle:hover {
+    transform: scale(1.15);
     background-color: var(--accent-pink);
-    border-radius: 2px;
 }
 
-.music-btn-next:hover {
-    transform: scale(1.12);
-    background-color: var(--accent-pink);
-    color: white;
+.btn-next-circle:hover .triangle-right {
+    border-left-color: white;
 }
 
-.music-btn-next:hover .bar {
-    background-color: white;
-}
-
-.music-btn-next:active {
+.btn-next-circle:active {
     transform: scale(0.95);
 }
 
@@ -113,16 +100,14 @@ margin: 0;
     animation: float 4s ease-in-out infinite;
 }
 
-/* คำอธิบายปุ่ม */
-.btn-label {
+.nav-text {
     font-family: sans-serif;
     font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-weight: 700;
     color: var(--accent-pink);
     margin-top: 15px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    opacity: 0.8;
 }
 </style>
 </head>
@@ -137,15 +122,12 @@ margin: 0;
         </h1>
     </div>
 
-    <!-- ส่วนปุ่มกด -->
+    <!-- ปุ่มวงกลมและสามเหลี่ยม -->
     <div class="flex flex-col items-center">
-        <a href="menu.html" class="music-btn-next" title="Next to Menu">
-            <div class="icon-next">
-                <span class="arrow">►</span>
-                <div class="bar"></div>
-            </div>
+        <a href="menu.html" class="btn-next-circle" title="Go to Menu">
+            <div class="triangle-right"></div>
         </a>
-        <div class="btn-label">Tap to Start</div>
+        <div class="nav-text">Tap to Start</div>
     </div>
 
 </div>
