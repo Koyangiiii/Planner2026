@@ -10,41 +10,50 @@
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
---bg-main: #ffe6f0;
---paper: #ffffff;
---accent-pink: #eb7aa6;
---text-dark: #8a516b;
---line-color: rgba(235, 122, 166, 0.15);
+    --bg-main: #ffe6f0;
+    --paper: #ffffff;
+    --accent-pink: #eb7aa6;
+    --text-dark: #8a516b;
+    --line-color: rgba(235, 122, 166, 0.3);
 }
 
 body {
-background-color: var(--bg-main);
-background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
-font-family: 'Mitr', sans-serif;
-color: var(--text-dark);
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0;
+    background-color: var(--bg-main);
+    background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
+    font-family: 'Mitr', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
 }
 
-/* ลบส่วน menu-card ออก แล้วใช้ wrapper ธรรมดาแทน */
+/* ลบกรอบขาว (card) ออก ให้เหลือแค่โครงสร้างจัดการตำแหน่ง */
 .menu-wrapper {
-    width: 100%;
-    max-width: 800px;
+    width: 95%;
+    max-width: 600px;
     padding: 20px;
     text-align: center;
 }
 
 .menu-title {
     color: var(--accent-pink);
-    font-size: 1.5rem; /* ปรับขนาดขึ้นเล็กน้อยให้เด่น */
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    text-shadow: 1px 1px 0px white; /* เพิ่มเงาขาวให้อ่านง่ายขึ้นบนพื้นหลังสีอ่อน */
+}
+
+/* เส้นคั่น */
+.divider {
+    border: none;
+    height: 1px;
+    background-color: var(--accent-pink);
+    opacity: 0.4;
+    margin: 20px auto;
+    width: 100%;
 }
 
 /* Container สำหรับเมนูแนวนอน */
@@ -53,53 +62,47 @@ margin: 0;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 30px; /* เพิ่มระยะห่างระหว่างข้อความ */
 }
 
-/* ปรับสไตล์ปุ่มให้ดูเป็นชิ้นเป็นอันขึ้นเมื่อไม่มีกรอบครอบ */
+/* เมนูแบบไม่มีกรอบ (Text only) */
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: var(--paper); /* ใช้สีขาวเพื่อให้ปุ่มดูโดดเด่นจากพื้นหลัง */
-    padding: 18px 28px;
-    border-radius: 50px; /* ปรับให้โค้งมนเป็นทรงแคปซูล */
+    gap: 8px;
     text-decoration: none; 
     color: var(--text-dark);
     font-weight: 500;
     font-size: 1.1rem;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 2px solid white;
-    box-shadow: 0 10px 20px rgba(235, 122, 166, 0.1);
+    transition: all 0.3s ease;
     cursor: pointer;
+    padding: 5px 0;
 }
 
 .menu-item:hover {
-    transform: translateY(-8px);
-    background: var(--accent-pink);
-    color: white;
-    border-color: var(--accent-pink);
-    box-shadow: 0 15px 25px rgba(235, 122, 166, 0.25);
+    color: var(--accent-pink);
+    transform: scale(1.05);
 }
 
 .menu-arrow {
-    font-size: 0.9rem;
-    opacity: 0.5;
+    font-size: 0.8rem;
+    color: var(--accent-pink);
+    opacity: 0.6;
 }
 
 .menu-item:hover .menu-arrow {
     opacity: 1;
-    transform: translateX(3px);
-    transition: transform 0.2s ease;
 }
 </style>
 </head>
 <body>
 
-    <!-- ใช้ Wrapper แทน Card -->
     <div class="menu-wrapper">
         
         <h2 class="menu-title">Main Menu</h2>
+
+        <!-- เส้นคั่นบน -->
+        <hr class="divider">
 
         <div class="menu-container">
             
@@ -119,6 +122,9 @@ margin: 0;
             </a>
             
         </div>
+
+        <!-- เส้นคั่นล่าง -->
+        <hr class="divider">
 
     </div>
 
