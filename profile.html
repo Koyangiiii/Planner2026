@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Planner2026 - Interactive Profile</title>
+<title>Planner2026 - Music Profile</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
@@ -38,7 +38,6 @@ body {
     position: relative;
 }
 
-/* ย้ายกลุ่มปุ่มนำทางมาไว้ด้วยกันที่มุมซ้าย */
 .nav-group {
     position: absolute;
     top: 25px;
@@ -71,29 +70,59 @@ body {
 .profile-header {
     text-align: center;
     margin-bottom: 30px;
-}
-
-/* ส่วนรูปภาพที่คลิกเพื่ออัปโหลดได้ */
-.profile-img-container {
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 20px;
-    border-radius: 50%;
-    border: 5px solid var(--bg-main);
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(235, 122, 166, 0.15);
-    cursor: pointer;
     position: relative;
 }
 
-.profile-img-container:hover::after {
-    content: 'Change Photo';
+/* --- Music Player Style Starts Here --- */
+
+/* Animation สำหรับรูปหมุน */
+@keyframes rotateDisc {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.player-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 50px; /* เพิ่ม margin bottom สำหรับปุ่ม */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* แถบ Progress Bar รอบวงกลม */
+.player-progress-ring {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: rgba(235, 122, 166, 0.8);
-    color: white;
-    font-size: 0.7rem;
-    padding: 5px 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #fffafa; /* สีพื้นหลังแถบ */
+    border-top-color: var(--accent-pink); /* สี Progress */
+    animation: rotateDisc 4s linear infinite; /* วิ่งวนจำลอง Progress */
+}
+
+/* Container รูปภาพ (แผ่นเสียง) */
+.profile-img-container {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border: 10px solid #333; /* ขอบแผ่นเสียงสีดำ */
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+    
+    /* สั่งให้หมุนช้าๆ */
+    animation: rotateDisc 10s linear infinite;
+    animation-play-state: running; /* เริ่มต้นให้เล่น */
+}
+
+/* สไตล์เมื่อหยุดเล่น */
+.profile-img-container.paused {
+    animation-play-state: paused;
 }
 
 .profile-img-container img {
@@ -101,8 +130,45 @@ body {
     height: 100%;
     object-fit: cover;
 }
+ 
+/* รูตรงกลางแผ่นเสียง */
+.profile-img-container::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px; height: 20px;
+    background: var(--paper);
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    z-index: 3;
+}
 
-/* ช่องกรอกข้อมูลแบบไร้ขอบ */
+/* ปุ่มควบคุมเพลง */
+.player-controls {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    color: var(--accent-pink);
+    font-size: 1.5rem;
+    z-index: 4;
+}
+
+.control-btn {
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.control-btn:hover {
+    color: var(--text-dark);
+    transform: scale(1.1);
+}
+
+/* --- Music Player Style Ends Here --- */
+
 [contenteditable="true"] {
     outline: none;
     padding: 2px 5px;
@@ -110,14 +176,8 @@ body {
     transition: background 0.2s;
 }
 
-[contenteditable="true"]:hover {
-    background: rgba(235, 122, 166, 0.05);
-}
-
-[contenteditable="true"]:focus {
-    background: rgba(235, 122, 166, 0.1);
-    border-bottom: 1px dashed var(--accent-pink);
-}
+[contenteditable="true"]:hover { background: rgba(235, 122, 166, 0.05); }
+[contenteditable="true"]:focus { background: rgba(235, 122, 166, 0.1); border-bottom: 1px dashed var(--accent-pink); }
 
 .profile-name {
     font-family: var(--header-font);
@@ -142,15 +202,15 @@ body {
     text-transform: uppercase;
 }
 
-.info-value {
-    display: block;
-    font-size: 1.1rem;
-    min-height: 1.5em;
-}
+.info-value { display: block; font-size: 1.1rem; min-height: 1.5em; }
 
 @media (max-width: 640px) {
     .nav-group { top: 15px; left: 15px; }
     .nav-button { width: 40px; height: 40px; }
+    .player-container { width: 160px; height: 160px; margin-bottom: 40px;}
+    .profile-img-container { width: 130px; height: 130px; border-width: 7px; }
+    .profile-name { font-size: 2.2rem; }
+    .player-controls { font-size: 1.2rem; bottom: -30px; }
 }
 </style>
 </head>
@@ -163,9 +223,18 @@ body {
         </div>
 
         <div class="profile-header">
-            <div class="profile-img-container" onclick="document.getElementById('fileInput').click()">
-                <img id="profileImage" src="https://via.placeholder.com/150" alt="Profile">
+            <div class="player-container">
+                <div class="player-progress-ring"></div> <div id="discContainer" class="profile-img-container" onclick="handleDiscClick()">
+                    <img id="profileImage" src="https://via.placeholder.com/150" alt="Profile">
+                </div>
+                
+                <div class="player-controls">
+                    <i class="fa-solid fa-backward-step control-btn"></i>
+                    <i id="playPauseBtn" class="fa-solid fa-pause control-btn" onclick="togglePlay()"></i>
+                    <i class="fa-solid fa-forward-step control-btn"></i>
+                </div>
             </div>
+            
             <input type="file" id="fileInput" hidden accept="image/*">
             
             <h1 class="profile-name" id="userName" contenteditable="true">My Profile</h1>
@@ -200,10 +269,36 @@ body {
     </div>
 
     <script>
-        // บันทึกข้อมูลข้อความอัตโนมัติ
+        const discContainer = document.getElementById('discContainer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+
+        // ฟังก์ชันจัดการเมื่อคลิกที่แผ่นเสียง (เพื่ออัปโหลดรูป)
+        function handleDiscClick() {
+            // เราจะอนุญาตให้อัปโหลดรูปเฉพาะเมื่อเพลง "หยุด" อยู่เท่านั้น
+            if (discContainer.classList.contains('paused')) {
+                document.getElementById('fileInput').click();
+            } else {
+                alert("Please pause the player before changing the photo!");
+            }
+        }
+
+        // ฟังก์ชัน สลับสถานะ เล่น/หยุด
+        function togglePlay() {
+            discContainer.classList.toggle('paused');
+            
+            // เปลี่ยนไอคอน
+            if (discContainer.classList.contains('paused')) {
+                playPauseBtn.classList.remove('fa-pause');
+                playPauseBtn.classList.add('fa-play');
+            } else {
+                playPauseBtn.classList.remove('fa-play');
+                playPauseBtn.classList.add('fa-pause');
+            }
+        }
+
+        // --- ส่วนบันทึกข้อมูลเดิม ---
         const fields = ['userName', 'userTagline', 'fullName', 'birthday', 'hobbies', 'goals', 'quote'];
         
-        // โหลดข้อมูลเมื่อเปิดหน้า
         window.onload = () => {
             fields.forEach(id => {
                 const savedValue = localStorage.getItem(id);
@@ -211,16 +306,17 @@ body {
             });
             const savedImg = localStorage.getItem('profileImage');
             if (savedImg) document.getElementById('profileImage').src = savedImg;
+            
+            // เริ่มต้นหน้ามาให้แผ่นเสียงหมุนเลย
+            discContainer.classList.remove('paused');
         };
 
-        // ตรวจจับการพิมพ์และบันทึกอัตโนมัติ (Debounce)
         fields.forEach(id => {
             document.getElementById(id).addEventListener('input', () => {
                 localStorage.setItem(id, document.getElementById(id).innerText);
             });
         });
 
-        // จัดการเรื่องรูปภาพ (Upload & Compress)
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -229,9 +325,8 @@ body {
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
-                    // สร้าง Canvas เพื่อบีบอัดรูป
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 300; // บีบขนาดให้ไม่เกิน 300px
+                    const MAX_WIDTH = 300;
                     let width = img.width;
                     let height = img.height;
 
@@ -252,8 +347,7 @@ body {
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // แปลงเป็น Base64 และบันทึก
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7); // คุณภาพ 70%
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
                     document.getElementById('profileImage').src = dataUrl;
                     localStorage.setItem('profileImage', dataUrl);
                 };
