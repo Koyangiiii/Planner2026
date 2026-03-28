@@ -10,28 +10,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
---bg-main: #ffe6f0;
---paper: #ffffff;
---accent-pink: #eb7aa6;
---text-dark: #8a516b;
---header-font: 'Dancing Script', cursive;
+    --bg-main: #ffe6f0;
+    --paper: #ffffff;
+    --accent-pink: #eb7aa6;
+    --text-dark: #8a516b;
+    --header-font: 'Dancing Script', cursive;
 }
 
 body {
-background-color: var(--bg-main);
-background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
-font-family: 'Mitr', sans-serif;
-color: var(--text-dark);
-margin: 0;
-padding: 20px 10px;
-min-height: 100vh;
+    background-color: var(--bg-main);
+    background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
+    font-family: 'Mitr', sans-serif;
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px 10px;
+    min-height: 100vh;
 }
 
-/* กระดานสีขาวหลัก */
+/* กระดานสีขาวหลัก - ปรับความกว้างเพิ่มขึ้นเพื่อรองรับ 4 คอลัมน์ */
 .calendar-board {
     background-color: var(--paper);
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px; 
     margin: 0 auto;
     padding: 40px 20px;
     border-radius: 40px;
@@ -49,11 +49,24 @@ min-height: 100vh;
     text-shadow: 2px 2px 0px #fcf2b6;
 }
 
-/* Grid ของปฏิทิน */
+/* Grid ของปฏิทิน - ปรับเป็น 4 คอลัมน์ */
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* ปรับจำนวนคอลัมน์ตามขนาดหน้าจอ (Responsive) */
+@media (max-width: 1024px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* สไตล์แต่ละเดือน */
@@ -67,7 +80,7 @@ min-height: 100vh;
 .month-name {
     color: var(--accent-pink);
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 10px;
     text-align: center;
     border-bottom: 2px dashed rgba(235, 122, 166, 0.2);
@@ -78,7 +91,7 @@ min-height: 100vh;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    font-size: 0.85rem;
+    font-size: 0.75rem; /* ลดขนาดฟอนต์ตัวเลขเล็กน้อยเพื่อให้พอดีพื้นที่ 4 คอลัมน์ */
 }
 
 .day-label {
@@ -88,7 +101,7 @@ min-height: 100vh;
 }
 
 .day-number {
-    padding: 8px 0;
+    padding: 6px 0;
     border-radius: 8px;
     transition: background 0.2s;
 }
@@ -100,7 +113,7 @@ min-height: 100vh;
 }
 
 .empty-day {
-    padding: 8px 0;
+    padding: 6px 0;
 }
 </style>
 </head>
@@ -164,7 +177,7 @@ function generateCalendar(year) {
             dayDiv.className = 'day-number';
             dayDiv.innerText = day;
             
-            // ไฮไลท์วันเสาร์-อาทิตย์ (ถ้าต้องการ)
+            // ไฮไลท์วันเสาร์-อาทิตย์
             const currentDayOfWeek = new Date(year, month, day).getDay();
             if(currentDayOfWeek === 0 || currentDayOfWeek === 6) {
                 dayDiv.style.color = '#eb7aa6';
@@ -184,4 +197,3 @@ generateCalendar(2026);
 
 </body>
 </html>
-
