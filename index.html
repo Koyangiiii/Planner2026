@@ -13,11 +13,13 @@
 --bg-main: #ffe6f0;
 --paper: #ffffff;
 --text-dark: #8a516b;
+--text-darker: #5d3346;
 --text-light: #bd859b;
 --accent-pink: #eb7aa6;
 --accent-yellow: #fcf2b6;
 --mint: #a2dcd4;
 --peach: #ffc2b3;
+--sky: #b8e9ed;
 --line-color: rgba(235, 122, 166, 0.2);
 }
 body {
@@ -30,14 +32,12 @@ overflow-x: hidden;
 .font-fredoka { font-family: 'Fredoka', sans-serif; }
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* จุดที่ทำให้ Planner2026 เด่นที่สุด */
-.planner-hero {
-    text-shadow: 3px 3px 0px var(--accent-yellow), 6px 6px 0px rgba(235, 122, 166, 0.2);
-    animation: soft-pulse 3s infinite ease-in-out;
-}
-@keyframes soft-pulse {
-    0%, 100% { transform: rotate(-5deg) scale(1); }
-    50% { transform: rotate(-3deg) scale(1.05); }
+/* ทำให้ Planner2026 เด่นเป็นพิเศษ */
+.planner-highlight {
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 1;
+    text-shadow: 4px 4px 0px var(--accent-yellow);
+    filter: drop-shadow(2px 2px 5px rgba(235, 122, 166, 0.3));
 }
 
 .paper-container {
@@ -95,55 +95,35 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
 </head>
 <body class="min-h-screen py-6 sm:py-10 px-2 sm:px-4 md:px-8 relative selection:bg-[#fcf2b6] selection:text-[#8a516b]">
 
-<!-- Floating Background Elements -->
-<svg class="decor-float fixed top-10 left-5 w-10 h-10 text-[#a2dcd4] opacity-40 z-0" style="--rot: -12deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-
 <div class="max-w-5xl mx-auto flex flex-col gap-8 sm:gap-12 items-center w-full">
     
     <!-- HEADER HERO SECTION -->
-    <div class="w-full flex flex-row justify-between items-stretch gap-2 sm:gap-10 mt-2 sm:mt-6 relative z-20 px-1 sm:px-4">
+    <div class="w-full flex flex-col sm:flex-row justify-between items-center sm:items-stretch gap-6 sm:gap-10 mt-2 sm:mt-6 relative z-20 px-1 sm:px-4">
         
-        <!-- Left Box -->
-        <div class="relative flex-[1.6] sm:flex-1 flex flex-col">
-            <div class="absolute inset-0 bg-[#f5a9cb] transform rotate-[-1deg] translate-x-[-4px] translate-y-[6px] opacity-80 z-0 rounded-md"></div>
-            <div class="bg-white relative z-10 p-4 sm:p-10 transform rotate-[-0.5deg] rounded-md shadow-sm border border-gray-100/50 flex-1 flex flex-col justify-center">
-                <div class="tape bg-tape-pink tape-1 -top-4 left-1/2 transform -translate-x-1/2 rotate-1 w-24 sm:w-32 h-6 sm:h-8"></div>
-                
-                <div class="space-y-4 sm:space-y-6 pt-2">
-                    <div class="relative">
-                        <!-- THE STAR: Planner2026 -->
-                        <div class="planner-hero font-signature text-5xl sm:text-7xl text-[#eb7aa6] absolute -top-12 sm:-top-20 -left-2 sm:-left-6 z-50 pointer-events-none select-none">
-                            Planner2026
-                        </div>
-                        
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-[12px] sm:text-3xl uppercase tracking-tight leading-none mt-4 sm:mt-0">DESIGN SERVICES</h2>
-                        <p class="mt-1 sm:mt-3 text-[#8a516b] text-[9px] sm:text-base font-medium leading-tight">
-                            รับออกแบบป้าย ลายน้ำ Google Sheet เว็บไซต์ ⭐️
-                        </p>
-                    </div>
-                    <div class="text-[#bd859b] text-[8px] sm:text-sm leading-tight sm:leading-relaxed bg-[#fff8fb] p-2 sm:p-5 rounded-lg border border-[#f2adcc]/30">
-                        <p class="font-bold text-[#8a516b] mb-1 uppercase text-[8px] sm:text-xs">งานที่รับทำ:</p>
-                        <ul class="list-none space-y-0.5 sm:space-y-1.5 font-medium">
-                            <li>- ป้าย ลายน้ำ โลโก้</li>
-                            <li>- Google Sheet / Website</li>
-                        </ul>
-                    </div>
-                </div>
+        <!-- Left Section (Planner2026 Only) -->
+        <div class="relative flex-[1.6] w-full flex items-center justify-center sm:justify-start">
+            <div class="relative z-10 transform -rotate-3">
+                <div class="tape bg-tape-pink tape-1 -top-8 left-1/4 rotate-12 w-24 h-8 opacity-60"></div>
+                <!-- คำว่า Planner2026 เด่นที่สุด -->
+                <span class="font-signature planner-highlight text-[#eb7aa6] block">
+                    Planner2026
+                </span>
+                <svg class="decor-float absolute -top-4 -right-8 w-8 h-8 text-[#fcf2b6]" style="--rot: 20deg;" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
         </div>
 
-        <!-- Right Box (Polaroid) -->
+        <!-- Right Polaroid -->
         <div class="relative flex-1 flex flex-col items-center shrink-0 pt-2">
             <div class="relative bg-white border border-[#eb7aa6] sm:border-2 rounded-full px-2 sm:px-5 py-0.5 sm:py-1.5 mb-2 sm:mb-4 z-30 transform rotate-2 shadow-sm">
                 <span class="font-fredoka text-[#eb7aa6] text-[7px] sm:text-[11px] font-bold tracking-wide uppercase">KOYANGI SHOP</span>
             </div>
-            <div class="polaroid transform rotate-[-3deg] w-full max-w-[110px] sm:max-w-[240px] z-10">
+            <div class="polaroid transform rotate-[3deg] w-full max-w-[140px] sm:max-w-[240px] z-10 border border-white sm:border-2">
                 <div class="tape bg-tape-mint tape-2 -top-3 left-1/2 transform -translate-x-1/2 rotate-2 w-12 sm:w-20 h-4 sm:h-6"></div>
-                <div class="w-full aspect-[4/5] bg-[#fff9eb] overflow-hidden rounded-sm relative">
+                <div class="w-full aspect-[4/5] bg-[#fff9eb] overflow-hidden rounded-sm relative border border-[#f5e687]/30">
                     <img src="logo_koyangi.png" alt="koyangi Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="absolute bottom-1 sm:bottom-3 right-0 bg-[#8a516b] text-white px-2 sm:px-4 py-0.5 sm:py-1.5 text-[5px] sm:text-[9px] font-fredoka font-bold rounded-l-md shadow-md">
-                    WELCOME
+                    WELCOME TO KOYANGI
                 </div>
             </div>
         </div>
@@ -153,9 +133,11 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
     <div class="paper-container w-full rounded-sm pt-12 sm:pt-16 pb-16 sm:pb-20 px-4 sm:px-10 lg:px-16 z-10 relative mt-6 sm:mt-10">
         <div class="jagged-top"></div>
         <div class="jagged-bottom"></div>
-        
+        <div class="tape bg-tape-yellow tape-2 -top-3 -left-4 transform -rotate-3 w-24 sm:w-36 h-6 sm:h-8 z-20"></div>
+
+        <!-- Status Bar -->
         <div class="absolute -top-4 right-4 bg-white border-2 border-[#eb7aa6] rounded-full px-3 sm:px-5 py-1 z-20 flex items-center shadow-sm">
-            <span class="font-fredoka text-[#eb7aa6] text-[8px] sm:text-xs font-bold tracking-wider uppercase">CHECK QUEUE</span>
+            <span class="font-fredoka text-[#eb7aa6] text-[8px] sm:text-xs font-bold tracking-wider uppercase leading-none">CHECK QUEUE</span>
         </div>
 
         <div class="mb-10 sm:mb-14 pt-2 relative z-10">
@@ -166,8 +148,8 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
         </div>
 
         <div class="space-y-12 sm:space-y-16">
-            <!-- 01. Portfolio -->
-            <div class="flex relative">
+            <!-- 01. Portfolio Examples -->
+            <div class="schedule-item flex relative">
                 <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">01.</div>
                 <div class="flex-1">
                     <div class="flex items-center w-full mb-6">
@@ -175,26 +157,26 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
                         <div class="dotted-leader"></div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <a href="https://julie-vwb.github.io/pinkjulie-land/" target="_blank" class="link-item">Pinkjulie Land</a>
-                        <a href="https://julie-vwb.github.io/mahatep-shop/" target="_blank" class="link-item">Mahatep Shop</a>
+                        <a href="https://julie-vwb.github.io/pinkjulie-land/" target="_blank" class="link-item">Pinkjulie Land Example</a>
+                        <a href="https://julie-vwb.github.io/mahatep-shop/" target="_blank" class="link-item">Mahatep Shop Example</a>
                         <a href="https://julie-vwb.github.io/babybear-design/" target="_blank" class="link-item">Babybear Design</a>
                         <a href="https://julie-vwb.github.io/luna-webstudio/" target="_blank" class="link-item">Luna Webstudio</a>
                     </div>
                 </div>
             </div>
 
-            <!-- 02 & 03 Rules -->
+            <!-- 02. Steps & Rules -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
                 <div class="flex">
                     <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">02.</div>
                     <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase mb-4">How to order</h2>
-                        <div class="bg-[#e6f4f1] p-5 rounded-2xl border-2 border-[#a2dcd4] text-xs sm:text-sm">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">How to order</h2>
+                        <div class="bg-[#e6f4f1] p-5 sm:p-6 rounded-2xl border-2 border-[#a2dcd4] text-xs sm:text-sm space-y-4">
                             <ol class="list-decimal pl-5 space-y-2 text-[#5e968d] font-medium">
-                                <li>กรอกฟอร์ม เขียนรายละเอียด</li>
-                                <li>ส่งบรีฟพร้อมตัวอย่าง/โลโก้</li>
-                                <li>แจ้งยอด ชำระเงิน</li>
-                                <li>รอรับลิงก์ผลงานได้เลย</li>
+                                <li>กรอกฟอร์ม เขียนรายละเอียดร้านค้า</li>
+                                <li>ใส่ลิงก์ ตัวอย่างงานมาให้พร้อม หากมีโลโก้ให้แนบมา</li>
+                                <li>ส่งงานให้เช็ค แจ้งยอด ชำระเงิน</li>
+                                <li>รอรับลิงก์ได้เลยค่า</li>
                             </ol>
                         </div>
                     </div>
@@ -202,12 +184,13 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
                 <div class="flex">
                     <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">03.</div>
                     <div class="flex-1">
-                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase mb-4">Shop Rules</h2>
-                        <div class="bg-[#fff5f2] p-5 rounded-2xl border-2 border-[#ffc2b3] text-xs sm:text-sm">
+                        <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-4">Shop Rules</h2>
+                        <div class="bg-[#fff5f2] p-5 sm:p-6 rounded-2xl border-2 border-[#ffc2b3] text-xs sm:text-sm space-y-3">
                             <ul class="list-disc pl-5 space-y-2 font-medium text-[#d97762]">
                                 <li>โอนเงินแล้วไม่คืนเงินทุกกรณี</li>
-                                <li>ยกเลิกงานหลังเริ่มแล้ว คืน 50%</li>
-                                <li>รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
+                                <li>ยกเลิกงานหลังส่งบรีฟ (เริ่มงานแล้ว) คืน 50%</li>
+                                <li>ยกเลิกหลังจากเช็คงาน = ไม่คืน และส่งงานให้ตามปกติ</li>
+                                <li class="italic">รองานปกติ 4-8 ชม. / งานเร่ง *2 ราคา</li>
                             </ul>
                         </div>
                     </div>
@@ -217,12 +200,15 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
             <!-- 04. Contact -->
             <div class="flex pt-6 relative">
                 <div class="w-8 sm:w-12 pt-1 shrink-0 font-fredoka text-[#eb7aa6] font-bold text-lg sm:text-2xl">04.</div>
-                <div class="flex-1">
-                    <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase mb-8">Contact Us</h2>
+                <div class="flex-1 relative z-10">
+                    <h2 class="font-fredoka text-[#8a516b] font-bold text-base sm:text-xl uppercase tracking-wider mb-8">Contact Us</h2>
                     <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md uppercase">Facebook</a>
-                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md uppercase">Line</a>
-                        <a href="https://www.instagram.com/k0yangi_ii?igsh=ZDBnemRmNmI5amcy&utm_source=qr" target="_blank" class="bg-[#eb7aa6] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md uppercase">Instagram</a>
+                        <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" class="bg-[#8a516b] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Facebook</a>
+                        <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" class="bg-white text-[#8a516b] border-2 border-[#8a516b] px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Line</a>
+                        <a href="https://www.instagram.com/k0yangi_ii?igsh=ZDBnemRmNmI5amcy&utm_source=qr" target="_blank" class="bg-[#eb7aa6] text-white px-8 py-3 rounded-full text-[10px] sm:text-xs font-bold shadow-md min-w-[140px] text-center uppercase">Instagram</a>
+                    </div>
+                    <div class="mt-14 relative flex justify-center">
+                        <p class="text-[#8a516b] text-sm font-bold italic text-center">ขอบคุณที่ไว้วางใจ koyangi</p>
                     </div>
                 </div>
             </div>
@@ -231,7 +217,7 @@ font-size: 0.85rem; transition: all 0.2s; text-align: center; font-weight: 500;
 </div>
 
 <script>
-// สคริปต์พื้นฐานคงเดิม
+// Logic preserved for consistency
 function openModal(id) { document.getElementById(id).classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.body.style.overflow = 'auto'; }
 </script>
