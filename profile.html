@@ -60,15 +60,33 @@ body {
     transition: all 0.3s ease;
 }
 
+/* หัวข้อ My Profile แบบใหม่ */
+.profile-static-title {
+    font-family: var(--header-font);
+    font-size: 3.8rem;
+    color: var(--accent-pink);
+    margin: 0;
+    line-height: 1;
+    text-shadow: 3px 3px 0px #fff, 5px 5px 15px rgba(235, 122, 166, 0.3);
+    user-select: none;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.profile-title-area {
+    border-bottom: 2px dashed #ffdbee;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
 .main-layout {
     display: grid;
     grid-template-columns: 250px 1fr;
     gap: 30px;
     align-items: stretch;
-    margin-top: 20px;
 }
 
-/* จัดกึ่งกลางรูปภาพแนวตั้ง */
 .music-side {
     display: flex;
     flex-direction: column;
@@ -120,24 +138,10 @@ body {
     transition: width 0.3s ease;
 }
 
-/* --- Info Content --- */
 .info-content {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.profile-title-area {
-    border-bottom: 2px dashed #ffdbee;
-    padding-bottom: 10px;
-}
-
-.profile-name-title {
-    font-family: var(--header-font);
-    font-size: 2.5rem;
-    color: var(--accent-pink);
-    line-height: 1;
-    margin-bottom: 5px;
 }
 
 .info-item {
@@ -155,10 +159,9 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
-    user-select: none; /* ห้ามเลือกหัวข้อ */
+    user-select: none;
 }
 
-/* เฉพาะส่วนที่กรอกได้ */
 .editable-value {
     display: block;
     font-size: 1.05rem;
@@ -170,136 +173,4 @@ body {
 
 .editable-value:focus {
     outline: none;
-    background: rgba(235, 122, 166, 0.05);
-    border-radius: 8px;
-}
-
-@media (max-width: 768px) {
-    .main-layout { grid-template-columns: 1fr; }
-    .music-side { padding-bottom: 30px; }
-    .profile-board { padding-top: 80px; }
-}
-</style>
-</head>
-<body>
-
-    <div class="profile-board">
-        <div class="nav-group">
-            <a href="menu.html" class="nav-button"><i class="fa-solid fa-house"></i></a>
-            <a href="calendar.html" class="nav-button"><i class="fa-solid fa-calendar-days"></i></a>
-        </div>
-
-        <div class="main-layout">
-            <!-- ซ้าย: รูปภาพอยู่ตรงกลางแนวตั้ง -->
-            <div class="music-side">
-                <div class="player-container text-center">
-                    <div id="discContainer" class="profile-img-container" onclick="document.getElementById('fileInput').click()">
-                        <img id="profileImage" src="https://via.placeholder.com/300" alt="Profile">
-                    </div>
-                    
-                    <div class="progress-line-container">
-                        <div class="progress-line-fill" id="progressFill"></div>
-                    </div>
-
-                    <div class="flex justify-center gap-6 mt-4 text-pink-400">
-                        <i class="fa-solid fa-backward-step cursor-pointer hover:text-pink-600 transition"></i>
-                        <i id="playPauseBtn" class="fa-solid fa-pause text-xl cursor-pointer hover:text-pink-600 transition" onclick="togglePlay()"></i>
-                        <i class="fa-solid fa-forward-step cursor-pointer hover:text-pink-600 transition"></i>
-                    </div>
-                </div>
-                <input type="file" id="fileInput" hidden accept="image/*">
-            </div>
-
-            <!-- ขวา: ข้อมูล (แก้ไขได้เฉพาะส่วน Value) -->
-            <div class="info-content">
-                <div class="profile-title-area">
-                    <!-- ส่วนชื่อที่แก้ได้ -->
-                    <div class="profile-name-title editable-value" id="userName" contenteditable="true">My Profile</div>
-                    <div id="userTagline" contenteditable="true" class="editable-value text-sm italic opacity-60">Ready for 2026...</div>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-label"><i class="fa-solid fa-user-tag text-[10px]"></i> Full Name</span>
-                    <span class="editable-value" id="fullName" contenteditable="true">Somchai Jaidee</span>
-                </div>
-                
-                <div class="info-item">
-                    <span class="info-label"><i class="fa-solid fa-cake-candles text-[10px]"></i> Birthday</span>
-                    <span class="editable-value" id="birthday" contenteditable="true">01 January 2000</span>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-label"><i class="fa-solid fa-heart text-[10px]"></i> Hobbies</span>
-                    <span class="editable-value" id="hobbies" contenteditable="true">Coding, Web Development</span>
-                </div>
-
-                <div class="info-item">
-                    <span class="info-label"><i class="fa-solid fa-star text-[10px]"></i> Goals for 2026</span>
-                    <span class="editable-value" id="goals" contenteditable="true">Create amazing digital products!</span>
-                </div>
-
-                <div id="quote" contenteditable="true" class="editable-value text-center mt-4 italic text-sm opacity-50">
-                    "Every pixel tells a story."
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const discContainer = document.getElementById('discContainer');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const progressFill = document.getElementById('progressFill');
-
-        function togglePlay() {
-            discContainer.classList.toggle('paused');
-            if (discContainer.classList.contains('paused')) {
-                playPauseBtn.className = 'fa-solid fa-play text-xl cursor-pointer';
-                progressFill.style.width = "15%"; 
-            } else {
-                playPauseBtn.className = 'fa-solid fa-pause text-xl cursor-pointer';
-                progressFill.style.width = "45%";
-            }
-        }
-
-        const fields = ['userName', 'userTagline', 'fullName', 'birthday', 'hobbies', 'goals', 'quote'];
-        
-        window.onload = () => {
-            fields.forEach(id => {
-                const savedValue = localStorage.getItem(id);
-                if (savedValue) document.getElementById(id).innerText = savedValue;
-            });
-            const savedImg = localStorage.getItem('profileImage');
-            if (savedImg) document.getElementById('profileImage').src = savedImg;
-        };
-
-        fields.forEach(id => {
-            document.getElementById(id).addEventListener('input', () => {
-                localStorage.setItem(id, document.getElementById(id).innerText);
-            });
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const size = 500; 
-                    canvas.width = size;
-                    canvas.height = size;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, size, size);
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                    document.getElementById('profileImage').src = dataUrl;
-                    localStorage.setItem('profileImage', dataUrl);
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    </script>
-</body>
-</html>
+    background: rgba(235, 1
