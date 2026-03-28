@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Planner2026 - Calendar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg-main: #ffe6f0;
+--paper: #ffffff;
+--accent-pink: #eb7aa6;
+--text-dark: #8a516b;
+--header-font: 'Dancing Script', cursive;
+}
+
+body {
+background-color: var(--bg-main);
+background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
+font-family: 'Mitr', sans-serif;
+color: var(--text-dark);
+margin: 0;
+padding: 20px 10px;
+min-height: 100vh;
+}
+
+/* กระดานสีขาวหลัก */
+.calendar-board {
+    background-color: var(--paper);
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    border-radius: 40px;
+    box-shadow: 0 15px 40px rgba(235, 122, 166, 0.2);
+    border: 3px solid white;
+}
+
+/* หัวข้อ Calendar */
+.calendar-header {
+    font-family: var(--header-font);
+    font-size: 4rem;
+    color: var(--accent-pink);
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 2px 2px 0px #fcf2b6;
+}
+
+/* Grid ของปฏิทิน */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* สไตล์แต่ละเดือน */
+.month-container {
+    background: #fffafa;
+    border: 1px solid rgba(235, 122, 166, 0.1);
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.month-name {
+    color: var(--accent-pink);
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: 2px dashed rgba(235, 122, 166, 0.2);
+    padding-bottom: 5px;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.day-label {
+    font-weight: 600;
+    color: #db96b4;
+    padding: 5px 0;
+}
+
+.day-number {
+    padding: 8px 0;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.day-number:hover {
+    background-color: var(--bg-main);
+    color: var(--accent-pink);
+    cursor: default;
+}
+
+.empty-day {
+    padding: 8px 0;
+}
+</style>
+</head>
+<body>
+
+    <div class="calendar-board">
+        <h1 class="calendar-header">Calendar 2026</h1>
+        
+        <div id="calendar-container" class="calendar-grid">
+            <!-- ปฏิทินทั้ง 12 เดือนจะถูกสร้างด้วย JavaScript ตรงนี้ -->
+        </div>
+    </div>
+
+<script>
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const dayLabels = ["S", "M", "T", "W", "T", "F", "S"];
+
+function generateCalendar(year) {
+    const container = document.getElementById('calendar-container');
+    
+    for (let month = 0; month < 12; month++) {
+        const monthDiv = document.createElement('div');
+        monthDiv.className = 'month-container';
+        
+        // Month Title
+        const title = document.createElement('div');
+        title.className = 'month-name';
+        title.innerText = months[month];
+        monthDiv.appendChild(title);
+        
+        // Days Grid
+        const grid = document.createElement('div');
+        grid.className = 'days-grid';
+        
+        // Add Day Labels (S M T W T F S)
+        dayLabels.forEach(label => {
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'day-label';
+            labelDiv.innerText = label;
+            grid.appendChild(labelDiv);
+        });
+        
+        // Get first day and total days
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        // Empty slots for previous month
+        for (let i = 0; i < firstDay; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-day';
+            grid.appendChild(empty);
+        }
+        
+        // Add actual days
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day-number';
+            dayDiv.innerText = day;
+            
+            // ไฮไลท์วันเสาร์-อาทิตย์ (ถ้าต้องการ)
+            const currentDayOfWeek = new Date(year, month, day).getDay();
+            if(currentDayOfWeek === 0 || currentDayOfWeek === 6) {
+                dayDiv.style.color = '#eb7aa6';
+            }
+            
+            grid.appendChild(dayDiv);
+        }
+        
+        monthDiv.appendChild(grid);
+        container.appendChild(monthDiv);
+    }
+}
+
+// เรียกใช้งานสำหรับปี 2026
+generateCalendar(2026);
+</script>
+
+</body>
+</html>
 
