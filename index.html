@@ -4,13 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Stock Management | Koyangi Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- เพิ่ม Google Fonts: Mitr และ Mrs Saint Delafield (ลายเซ็น) -->
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
     <style>
         :root{ --bg:#1a1a1a; --main:#9d81e1; --dark:#d1c4e9; --white:#252525; --green:#4caf50; --red:#ff5252; --glow:rgba(157,129,225,0.3); }
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Mitr',sans-serif;}
         body { background: var(--bg); color: #fff; display: flex; justify-content: center; min-height: 100vh; }
         
-        /* --- UI Elements --- */
+        /* --- เพิ่มส่วนหัวสไตล์ลายเซ็น --- */
+        .signature-title {
+            font-family: 'Mrs Saint Delafield', cursive;
+            font-size: 60px;
+            color: var(--main);
+            line-height: 0.8;
+            margin-bottom: 5px;
+            display: block;
+            text-shadow: 0 0 15px var(--glow);
+        }
+
+        /* --- UI Elements (คงเดิม 100%) --- */
         .hamburger { position: fixed; top: 20px; right: 20px; z-index: 1100; background: var(--main); width: 45px; height: 45px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 4px 15px var(--glow); transition: 0.3s; }
         .hamburger span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s ease-in-out; display: block; }
         .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -76,7 +88,6 @@
             width: 100%; -webkit-text-security: disc;
         }
 
-        /* ส่วนข้อมูลลูกค้าเพิ่มเติม */
         .shop-info-card { background: rgba(157,129,225,0.1); border: 1px dashed var(--main); border-radius: 20px; padding: 15px; margin-top: 30px; font-size: 13px; color: #ddd; text-align: left; }
         .shop-info-card h4 { color: var(--main); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
         .shop-info-card ul { list-style: none; padding-left: 5px; }
@@ -84,3 +95,230 @@
         .shop-link { color: var(--main); text-decoration: none; font-size: 11px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     </style>
 </head>
+<body>
+
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <nav class="sidebar" id="sidebar">
+        <a href="index.html" class="nav-item">🏠 หน้าหลัก</a>
+        <a href="portfolio.html" class="nav-item">📦 สินค้า</a>
+        <a href="contact.html" class="nav-item">💬 ติดต่อเรา</a>
+        <div onclick="toggleMenu()" class="nav-item active" style="cursor:pointer;">⚙️ ตั้งค่าระบบ</div>
+    </nav>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <h3>🔐 Admin Access</h3>
+            <p style="font-size: 12px; color: var(--dark); margin-bottom: 15px;">กรุณากรอกรหัสผ่าน 4 หลัก</p>
+            <input type="tel" id="safePinInput" placeholder="••••" maxlength="4" autocomplete="off" inputmode="numeric" readonly onfocus="this.removeAttribute('readonly');">
+            <button class="btn" style="background:var(--main); color:white; padding:12px; margin-top:10px;" onclick="checkPass()">ปลดล็อกระบบ</button>
+        </div>
+    </div>
+
+    <!-- ปุ่มบันทึกวงกลมด้านซ้าย -->
+    <div class="floating-save-circle" id="saveCircle" onclick="saveData()" title="บันทึกข้อมูล">
+        💾
+    </div>
+
+    <div id="main-admin" class="admin-container" style="display:none;">
+        <div style="text-align:center; margin-bottom:30px;">
+            <!-- เพิ่มส่วนหัว Planner 2026 สไตล์ลายเซ็น -->
+            <span class="signature-title">Planner 2026</span>
+            <h1 style="color: var(--main);">🛠️ Control Panel</h1>
+            <p style="font-size: 13px; color: var(--dark);">อัปเดตสต็อกและสถานะสินค้า</p>
+        </div>
+
+        <div class="section-card">
+            <h3 style="color:var(--main); margin-bottom:15px;">📦 รายการสินค้า</h3>
+            <div id="stock-container"></div>
+            <button class="btn btn-add" onclick="addAppItem()">➕ เพิ่มสินค้าใหม่</button>
+        </div>
+
+        <!-- ข้อมูลร้านค้าของลูกค้า -->
+        <div class="shop-info-card">
+            <h4>🎀 ข้อมูลร้าน Koyangi</h4>
+            <p style="font-size: 12px; margin-bottom: 10px;">รับออกแบบป้าย ลายน้ำ Google Sheet เว็บไซต์⭐️</p>
+            
+            <div style="margin-bottom: 10px;">
+                <strong>🎨 งานที่รับทำ:</strong>
+                <ul style="margin-left: 15px;">
+                    <li>• ป้าย ลายน้ำ โลโก้ / Google Sheet / Website</li>
+                </ul>
+            </div>
+
+            <strong>⭐️ ตัวอย่างงาน:</strong>
+            <a href="https://julie-vwb.github.io/pinkjulie-land/" class="shop-link" target="_blank">🔗 ดูผลงานทั้งหมด คลิ๊ก</a>
+            
+            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                <a href="https://line.me/ti/p/LfBtdhlrVa" target="_blank" style="text-decoration:none; color:#4caf50;">🟢 Line</a>
+                <a href="https://www.facebook.com/profile.php?id=61554192600355" target="_blank" style="text-decoration:none; color:#3b5998;">🔵 FB</a>
+            </div>
+        </div>
+
+        <div class="bottom-nav-box">
+            <a href="portfolio.html" class="back-link-btn">⬅️ กลับไปหน้าสินค้า</a>
+            <p style="font-size: 11px; color: #666; margin-top: 15px;">ระบบจะบันทึกลงใน Browser นี้เท่านั้น</p>
+        </div>
+    </div>
+
+    <script>
+        const PIN = "2546"; 
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.querySelector('.hamburger').classList.toggle('active');
+        }
+
+        function checkPass() {
+            const input = document.getElementById("safePinInput");
+            if (input.value === PIN) {
+                sessionStorage.setItem("isLoggedIn", "true");
+                unlockAdmin();
+            } else { 
+                alert("❌ รหัสผ่านไม่ถูกต้อง!"); 
+                input.value = ""; 
+                input.focus();
+            }
+        }
+
+        function unlockAdmin() {
+            document.getElementById("login-overlay").style.display = "none";
+            document.getElementById("main-admin").style.display = "block";
+            loadData();
+        }
+
+        function checkStockStatus(input) {
+            const item = input.closest('.stock-item');
+            const stockVal = parseInt(input.value);
+            if (stockVal <= 0 || isNaN(stockVal)) {
+                item.classList.add('out-of-stock');
+            } else {
+                item.classList.remove('out-of-stock');
+            }
+        }
+
+        function addAppItem(data = {}) {
+            const container = document.getElementById('stock-container');
+            const itemDiv = document.createElement('div');
+            
+            const {
+                name = '', price = '', stock = '', 
+                cat = 'streaming', img = 'https://via.placeholder.com/150', 
+                subCat = '', isHidden = false
+            } = data;
+
+            const outStockClass = (stock !== '' && parseInt(stock) <= 0) ? 'out-of-stock' : '';
+            itemDiv.className = `stock-item ${isHidden ? 'hidden-item' : ''} ${outStockClass}`;
+            itemDiv.dataset.hidden = isHidden;
+            
+            itemDiv.innerHTML = `
+                <div class="item-header">
+                    <div class="img-box">
+                        <img src="${img}" class="img-preview" data-base64="${img}">
+                        <input type="file" accept="image/*" style="display:none" onchange="handleFile(this)">
+                        <div style="position:absolute; bottom:-5px; right:-5px; background:var(--main); border-radius:50%; width:22px; height:22px; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; border: 2px solid #2d2d2d;" onclick="this.previousElementSibling.click()">📷</div>
+                    </div>
+                    <div style="flex-grow:1;">
+                        <select class="app-cat" style="margin-bottom:5px; height:35px; border-color:var(--main);">
+                            <option value="streaming" ${cat === 'streaming' ? 'selected' : ''}>📺 Streaming</option>
+                            <option value="working" ${cat === 'working' ? 'selected' : ''}>💼 Working</option>
+                            <option value="education" ${cat === 'education' ? 'selected' : ''}>🎓 Education</option>
+                        </select>
+                        <input type="text" class="app-subcat" placeholder="ชื่อแอป (เช่น Netflix)" value="${subCat}">
+                    </div>
+                </div>
+                
+                <input type="text" class="app-name" placeholder="ชื่อแพ็กเกจ (เช่น 30 วัน / 1 จอ)" value="${name}">
+                
+                <div class="form-grid">
+                    <div style="font-size:11px; color:var(--dark);">ราคา (฿)
+                        <input type="number" class="app-price" value="${price}" placeholder="ราคา">
+                    </div>
+                    <div style="font-size:11px; color:var(--dark);">สต็อก (ตัว)
+                        <input type="number" class="app-stock" value="${stock}" placeholder="สต็อก" oninput="checkStockStatus(this)">
+                    </div>
+                </div>
+
+                <div class="action-btns">
+                    <button class="btn btn-mini btn-hide ${isHidden ? 'active' : ''}" onclick="toggleHide(this)">
+                        ${isHidden ? '👁️‍🗨️ ซ่อนอยู่' : '👁️ แสดงอยู่'}
+                    </button>
+                    <button class="btn btn-mini btn-del" onclick="if(confirm('ลบรายการนี้?')){this.closest('.stock-item').remove()}">🗑️ ลบ</button>
+                </div>
+            `;
+            container.appendChild(itemDiv);
+        }
+
+        function toggleHide(btn) {
+            const item = btn.closest('.stock-item');
+            const newState = !(item.dataset.hidden === "true");
+            item.dataset.hidden = newState;
+            item.classList.toggle('hidden-item', newState);
+            btn.classList.toggle('active', newState);
+            btn.innerHTML = newState ? '👁️‍🗨️ ซ่อนอยู่' : '👁️ แสดงอยู่';
+        }
+
+        function handleFile(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const preview = input.closest('.stock-item').querySelector('.img-preview');
+                    preview.src = e.target.result;
+                    preview.dataset.base64 = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveData() {
+            const products = [];
+            const oldData = JSON.parse(localStorage.getItem('shopData')) || {};
+            document.querySelectorAll('.stock-item').forEach(item => {
+                const previewImg = item.querySelector('.img-preview');
+                products.push({
+                    cat: item.querySelector('.app-cat').value,
+                    subCat: item.querySelector('.app-subcat').value,
+                    name: item.querySelector('.app-name').value,
+                    price: item.querySelector('.app-price').value,
+                    stock: item.querySelector('.app-stock').value,
+                    img: previewImg.dataset.base64 || previewImg.src,
+                    isHidden: item.dataset.hidden === "true"
+                });
+            });
+            const newData = { ...oldData, products: products };
+            localStorage.setItem('shopData', JSON.stringify(newData));
+            
+            const saveBtn = document.getElementById('saveCircle');
+            saveBtn.innerHTML = "✅";
+            saveBtn.classList.add('success');
+            setTimeout(() => {
+                saveBtn.innerHTML = "💾";
+                saveBtn.classList.remove('success');
+            }, 2000);
+        }
+
+        function loadData() {
+            const savedData = JSON.parse(localStorage.getItem('shopData'));
+            if(savedData && savedData.products) {
+                const container = document.getElementById('stock-container');
+                container.innerHTML = '';
+                savedData.products.forEach(p => addAppItem(p));
+            }
+        }
+
+        document.getElementById('safePinInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') checkPass();
+        });
+
+        window.onload = () => { 
+            if (sessionStorage.getItem("isLoggedIn") === "true") {
+                unlockAdmin();
+            }
+        };
+    </script>
+</body>
+</html>
