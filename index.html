@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Planner2026 - Next</title>
+<title>Planner2026 - Home</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,11 +31,12 @@ margin: 0;
 
 .font-signature { font-family: 'Dancing Script', cursive; }
 
+/* Container หลักจัดวางแนวตั้ง */
 .main-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px; 
+    gap: 45px; 
     text-align: center;
     width: 100%;
 }
@@ -52,60 +53,58 @@ margin: 0;
     z-index: 10;
 }
 
-/* ปุ่มวงกลมใหญ่จิ้มง่าย */
-.btn-next-circle {
-    width: 100px;
-    height: 100px;
+/* ปุ่ม Next Track (ไปหน้าเมนู) */
+.music-btn-next {
+    width: 95px;
+    height: 95px;
     background-color: var(--paper);
-    border: 4px solid var(--accent-pink);
+    border: 3.5px solid var(--accent-pink);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 25px rgba(235, 122, 166, 0.3);
+    color: var(--accent-pink);
+    box-shadow: 0 8px 25px rgba(235, 122, 166, 0.25);
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-decoration: none;
-    cursor: pointer;
+    position: relative;
 }
 
-/* สามเหลี่ยมหันไปทางขวา */
-.triangle-right {
-    width: 0;
-    height: 0;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-left: 32px solid var(--accent-pink);
-    margin-left: 8px; /* ปรับให้ดูอยู่กลางวงกลมพอดี */
-    transition: all 0.3s ease;
+/* ไอคอนเครื่องเล่นเพลง (Next Track) */
+.icon-next {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 6px; 
 }
 
-.btn-next-circle:hover {
-    transform: scale(1.15);
+.icon-next .arrow {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.icon-next .bar {
+    width: 6px;
+    height: 30px;
     background-color: var(--accent-pink);
+    border-radius: 2px;
 }
 
-.btn-next-circle:hover .triangle-right {
-    border-left-color: white;
+.music-btn-next:hover {
+    transform: scale(1.12);
+    background-color: var(--accent-pink);
+    color: white;
 }
 
-.btn-next-circle:active {
+.music-btn-next:hover .bar {
+    background-color: white;
+}
+
+.music-btn-next:active {
     transform: scale(0.95);
 }
 
-/* ตกแต่งเทป */
-.tape {
-    position: absolute;
-    top: -15px;
-    left: 15%;
-    width: 110px;
-    height: 30px;
-    background-color: #ffb6c1;
-    opacity: 0.4;
-    mix-blend-mode: multiply;
-    clip-path: polygon(5% 0%, 95% 10%, 90% 90%, 0% 100%);
-    z-index: -1;
-}
-
+/* อนิเมชั่นลอยๆ */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
@@ -114,14 +113,16 @@ margin: 0;
     animation: float 4s ease-in-out infinite;
 }
 
-.nav-text {
+/* คำอธิบายปุ่ม */
+.btn-label {
     font-family: sans-serif;
     font-size: 0.8rem;
-    font-weight: 700;
+    font-weight: bold;
+    letter-spacing: 2px;
     color: var(--accent-pink);
     margin-top: 15px;
-    letter-spacing: 3px;
     text-transform: uppercase;
+    opacity: 0.8;
 }
 </style>
 </head>
@@ -129,20 +130,22 @@ margin: 0;
 
 <div class="main-content">
     
-    <!-- ส่วนชื่อ -->
+    <!-- ส่วนชื่อ (นำเทปออกแล้ว) -->
     <div class="relative float-anim">
-        <div class="tape"></div>
         <h1 class="font-signature planner-highlight">
             Planner2026
         </h1>
     </div>
 
-    <!-- ปุ่มวงกลมและสามเหลี่ยม -->
+    <!-- ส่วนปุ่มกด -->
     <div class="flex flex-col items-center">
-        <a href="menu.html" class="btn-next-circle" title="Go to Next Page">
-            <div class="triangle-right"></div>
+        <a href="menu.html" class="music-btn-next" title="Next to Menu">
+            <div class="icon-next">
+                <span class="arrow">►</span>
+                <div class="bar"></div>
+            </div>
         </a>
-        <div class="nav-text">Tap to Start</div>
+        <div class="btn-label">Tap to Start</div>
     </div>
 
 </div>
