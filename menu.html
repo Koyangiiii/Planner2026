@@ -1,1 +1,120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Planner2026 - Menu</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg-main: #ffe6f0;
+--paper: #ffffff;
+--accent-pink: #eb7aa6;
+--text-dark: #8a516b;
+--line-color: rgba(235, 122, 166, 0.15);
+}
+
+body {
+background-color: var(--bg-main);
+/* พื้นหลังลายเส้นสมุดแนวตั้งคงเดิม */
+background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
+font-family: 'Mitr', sans-serif;
+color: var(--text-dark);
+overflow-x: hidden;
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0;
+}
+
+/* กรอบข้อความสีขาว */
+.menu-card {
+    background-color: var(--paper);
+    width: 90%;
+    max-width: 400px;
+    padding: 30px 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(235, 122, 166, 0.2);
+    position: relative;
+    border: 2px solid white;
+}
+
+/* หัวข้อเมนูภายในกรอบ */
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff5f9;
+    padding: 18px 25px;
+    margin: 10px 0;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: 1.5px solid var(--line-color);
+}
+
+.menu-item:hover {
+    transform: translateY(-3px);
+    background: var(--accent-pink);
+    color: white;
+    border-color: var(--accent-pink);
+}
+
+/* ไอคอนสามเหลี่ยมในเมนู */
+.menu-arrow {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.menu-item:hover .menu-arrow {
+    opacity: 1;
+}
+
+/* ตกแต่งรูเจาะกระดาษด้านข้างกรอบ (Optional - ให้ดูเหมือนสมุด) */
+.menu-card::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 20%;
+    height: 60%;
+    width: 5px;
+    background-image: radial-gradient(circle, #db96b4 2px, transparent 2px);
+    background-size: 100% 20px;
+}
+</style>
+</head>
+<body>
+
+    <!-- กรอบข้อความสีขาว -->
+    <div class="menu-card text-center">
+        
+        <h2 class="mb-6 text-xl font-bold opacity-80 uppercase tracking-widest" style="color: var(--accent-pink);">Main Menu</h2>
+
+        <!-- รายการเมนู -->
+        <div class="flex flex-col gap-2">
+            <a href="profile.html" class="menu-item">
+                <span>ประวัติส่วนตัว</span>
+                <span class="menu-arrow">►</span>
+            </a>
+            
+            <!-- คุณสามารถเพิ่มเมนูอื่นๆ ตรงนี้ได้ในอนาคต -->
+            <!-- 
+            <a href="#" class="menu-item">
+                <span>ผลงาน</span>
+                <span class="menu-arrow">►</span>
+            </a> 
+            -->
+        </div>
+
+    </div>
+
+</body>
+</html>
 
