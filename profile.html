@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Planner2026 - Spotify Profile</title>
+<title>Planner2026 - Music Profile</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
     --bg-main: #ffe6f0;
     --paper: #ffffff;
     --accent-pink: #eb7aa6;
-    --spotify-green: #1DB954;
     --text-dark: #8a516b;
     --header-font: 'Dancing Script', cursive;
 }
@@ -30,320 +29,252 @@ body {
 .profile-board {
     background-color: var(--paper);
     width: 100%;
-    max-width: 800px; 
+    max-width: 850px; 
     margin: 0 auto;
-    padding: 80px 30px 40px;
+    padding: 60px 30px 40px;
     border-radius: 40px;
     box-shadow: 0 15px 40px rgba(235, 122, 166, 0.2);
     border: 3px solid white;
     position: relative;
-    overflow: hidden;
 }
 
+/* ปรับ Nav ให้เหมือนปฏิทิน */
 .nav-group {
     position: absolute;
-    top: 25px;
-    left: 25px;
+    top: 20px;
+    left: 20px;
     display: flex;
     gap: 10px;
-    z-index: 10;
 }
 
 .nav-button {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #fffafa;
     color: var(--accent-pink);
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1rem;
     text-decoration: none;
+    border: 1px solid rgba(235, 122, 166, 0.1);
     transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
 }
 
 .nav-button:hover {
     background-color: var(--accent-pink);
     color: white;
+    transform: scale(1.05);
 }
 
-/* --- Spotify Player Section --- */
+/* Layout Grid สำหรับแยกรูปและข้อมูล */
+.main-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    align-items: start;
+    margin-top: 20px;
+}
 
-.spotify-container {
+/* --- Music Section --- */
+.player-container {
     position: relative;
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto 30px;
-    text-align: center;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
 }
 
-/* พื้นหลังฟุ้งๆ ด้านหลังรูป */
-.bg-glow {
+@keyframes rotateDisc {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.player-progress-ring {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 3px solid #fffafa;
+    border-top-color: var(--accent-pink);
+    animation: rotateDisc 5s linear infinite;
+}
+
+.profile-img-container {
+    width: 190px; height: 190px;
+    border-radius: 50%;
+    border: 8px solid #333;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    cursor: pointer;
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 120%; height: 120%;
-    background: var(--accent-pink);
-    filter: blur(60px);
-    opacity: 0.15;
-    z-index: 0;
-    border-radius: 50%;
-}
-
-.album-art-wrapper {
-    position: relative;
-    width: 280px;
-    height: 280px;
-    margin: 0 auto 20px;
     z-index: 2;
+    animation: rotateDisc 12s linear infinite;
 }
 
-.album-art {
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    object-fit: cover;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
+.profile-img-container.paused { animation-play-state: paused; }
 
-.album-art-wrapper:hover .album-art {
-    transform: scale(1.02);
-}
+.profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ไอคอนกล้องตอน Hover */
-.upload-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.3);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 2rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-
-.album-art-wrapper:hover .upload-overlay {
-    opacity: 1;
-}
-
-/* Progress Bar */
-.progress-container {
-    width: 100%;
-    margin: 15px 0 10px;
-    cursor: pointer;
-}
-
-.progress-bar-bg {
-    width: 100%;
-    height: 4px;
-    background: rgba(235, 122, 166, 0.2);
-    border-radius: 2px;
-    position: relative;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    width: 30%; /* ปรับผ่าน JS */
-    background: var(--accent-pink);
-    border-radius: 2px;
-    position: relative;
-}
-
-.progress-bar-fill::after {
+.profile-img-container::before {
     content: '';
     position: absolute;
-    right: -5px; top: -4px;
-    width: 12px; height: 12px;
-    background: var(--accent-pink);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px; height: 18px;
+    background: var(--paper);
     border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.2s;
+    z-index: 3;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
 }
 
-.progress-container:hover .progress-bar-fill::after {
-    opacity: 1;
-}
-
-.time-info {
+.player-controls {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: #db96b4;
-    margin-top: 5px;
-}
-
-/* Controls */
-.spotify-controls {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 25px;
-    font-size: 1.4rem;
-    margin-top: 10px;
+    gap: 15px;
+    margin-top: 15px;
+    color: var(--accent-pink);
 }
 
-.play-btn {
-    width: 55px;
-    height: 55px;
-    background: var(--accent-pink);
-    color: white;
-    border-radius: 50%;
+.control-btn { cursor: pointer; transition: 0.2s; font-size: 1.2rem; }
+.control-btn:hover { transform: scale(1.2); color: var(--text-dark); }
+
+/* --- Info Section --- */
+.info-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 5px 15px rgba(235, 122, 166, 0.4);
+    flex-direction: column;
+    gap: 15px;
 }
 
-.heart-btn {
-    position: absolute;
-    right: 0;
-    bottom: 100px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: #db96b4;
+.profile-title-area {
+    border-bottom: 2px dashed #ffdbee;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-.heart-btn.liked {
-    color: #ff4d4d;
-    transform: scale(1.2);
+.profile-name {
+    font-family: var(--header-font);
+    font-size: 2.5rem;
+    color: var(--accent-pink);
+    line-height: 1;
 }
-
-/* Content Editable */
-[contenteditable="true"] { outline: none; border-radius: 5px; }
-[contenteditable="true"]:focus { background: rgba(235, 122, 166, 0.05); }
 
 .info-item {
     background: #fffafa;
-    padding: 15px 20px;
-    border-radius: 15px;
-    border: 1px solid rgba(235, 122, 166, 0.1);
-    margin-bottom: 12px;
+    padding: 12px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(235, 122, 166, 0.08);
 }
 
-.info-label { font-weight: 600; color: var(--accent-pink); font-size: 0.8rem; letter-spacing: 1px; }
-.info-value { display: block; font-size: 1.1rem; }
+.info-label {
+    font-weight: 600;
+    color: var(--accent-pink);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
+.info-value {
+    display: block;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    margin-top: 2px;
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+    background: rgba(235, 122, 166, 0.05);
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .main-layout { grid-template-columns: 1fr; }
+    .profile-board { padding-top: 80px; }
+    .profile-name { font-size: 2rem; }
+}
 </style>
 </head>
 <body>
 
     <div class="profile-board">
+        <!-- Navigation เหมือนหน้าปฏิทิน -->
         <div class="nav-group">
-            <a href="menu.html" class="nav-button"><i class="fa-solid fa-chevron-left"></i></a>
-            <a href="calendar.html" class="nav-button"><i class="fa-solid fa-calendar"></i></a>
+            <a href="menu.html" class="nav-button"><i class="fa-solid fa-house"></i></a>
+            <a href="calendar.html" class="nav-button"><i class="fa-solid fa-calendar-days"></i></a>
         </div>
 
-        <div class="spotify-container">
-            <div class="bg-glow"></div>
-            
-            <div class="album-art-wrapper" onclick="document.getElementById('fileInput').click()">
-                <img id="profileImage" class="album-art" src="https://via.placeholder.com/300x300?text=Your+Photo" alt="Cover">
-                <div class="upload-overlay"><i class="fa-solid fa-camera"></i></div>
-            </div>
-
-            <i id="heartBtn" class="fa-solid fa-heart heart-btn" onclick="toggleLike()"></i>
-
-            <div id="userName" contenteditable="true" class="text-2xl font-bold mb-1">My Planner 2026</div>
-            <div id="userTagline" contenteditable="true" class="text-sm opacity-70">Custom Profile • Spotify Style</div>
-
-            <!-- Progress Bar -->
-            <div class="progress-container" onclick="seek(event)">
-                <div class="progress-bar-bg">
-                    <div id="progressFill" class="progress-bar-fill"></div>
+        <div class="main-layout">
+            <!-- ซ้าย: Music Player -->
+            <div class="music-side text-center">
+                <div class="player-container">
+                    <div class="player-progress-ring"></div>
+                    <div id="discContainer" class="profile-img-container" onclick="document.getElementById('fileInput').click()">
+                        <img id="profileImage" src="https://via.placeholder.com/190" alt="Profile">
+                    </div>
                 </div>
-                <div class="time-info">
-                    <span id="currentTime">0:45</span>
-                    <span id="duration">3:20</span>
+                
+                <div class="player-controls">
+                    <i class="fa-solid fa-backward-step control-btn"></i>
+                    <i id="playPauseBtn" class="fa-solid fa-pause control-btn" onclick="togglePlay()"></i>
+                    <i class="fa-solid fa-forward-step control-btn"></i>
+                </div>
+                
+                <input type="file" id="fileInput" hidden accept="image/*">
+            </div>
+
+            <!-- ขวา: User Information -->
+            <div class="info-content">
+                <div class="profile-title-area">
+                    <h1 class="profile-name" id="userName" contenteditable="true">My Profile</h1>
+                    <p id="userTagline" contenteditable="true" class="text-sm italic" style="color: #db96b4;">Add your status here...</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-user-tag text-[10px]"></i> Full Name</span>
+                    <span class="info-value" id="fullName" contenteditable="true">Somchai Jaidee</span>
+                </div>
+                
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-cake-candles text-[10px]"></i> Birthday</span>
+                    <span class="info-value" id="birthday" contenteditable="true">01 January 2000</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-heart text-[10px]"></i> Hobbies</span>
+                    <span class="info-value" id="hobbies" contenteditable="true">Coding, Music</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-star text-[10px]"></i> Goals for 2026</span>
+                    <span class="info-value" id="goals" contenteditable="true">Enjoy every moment!</span>
+                </div>
+
+                <div id="quote" contenteditable="true" class="text-center mt-2 italic text-sm opacity-70">
+                    "Music is the shorthand of emotion."
                 </div>
             </div>
-
-            <!-- Play Controls -->
-            <div class="spotify-controls">
-                <i class="fa-solid fa-shuffle opacity-50 text-sm"></i>
-                <i class="fa-solid fa-backward-step cursor-pointer"></i>
-                <div class="play-btn cursor-pointer" onclick="togglePlay(this)">
-                    <i class="fa-solid fa-play ml-1"></i>
-                </div>
-                <i class="fa-solid fa-forward-step cursor-pointer"></i>
-                <i class="fa-solid fa-repeat opacity-50 text-sm"></i>
-            </div>
-        </div>
-
-        <input type="file" id="fileInput" hidden accept="image/*">
-
-        <!-- ข้อมูลส่วนตัวด้านล่าง -->
-        <div class="profile-info-grid px-2">
-            <div class="info-item">
-                <span class="info-label">FULL NAME</span>
-                <span class="info-value" id="fullName" contenteditable="true">Somchai Jaidee</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">BIRTHDAY</span>
-                <span class="info-value" id="birthday" contenteditable="true">01 January 2000</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label">TOP GENRE</span>
-                <span class="info-value" id="hobbies" contenteditable="true">Coding & Lo-fi Music</span>
-            </div>
-        </div>
-
-        <div class="text-center mt-6 italic opacity-60 text-sm" id="quote" contenteditable="true">
-            "Listening to the rhythm of 2026..."
         </div>
     </div>
 
     <script>
-        let isPlaying = false;
-        let progressInterval;
+        const discContainer = document.getElementById('discContainer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
 
-        // ฟังก์ชันหัวใจ (Like)
-        function toggleLike() {
-            const btn = document.getElementById('heartBtn');
-            btn.classList.toggle('liked');
-            localStorage.setItem('profileLiked', btn.classList.contains('liked'));
-        }
-
-        // ฟังก์ชันเล่น/หยุด
-        function togglePlay(btn) {
-            const icon = btn.querySelector('i');
-            isPlaying = !isPlaying;
-            if (isPlaying) {
-                icon.className = 'fa-solid fa-pause';
-                startProgress();
+        // สลับ เล่น/หยุด (กดที่ปุ่ม Pause/Play)
+        function togglePlay() {
+            discContainer.classList.toggle('paused');
+            if (discContainer.classList.contains('paused')) {
+                playPauseBtn.className = 'fa-solid fa-play control-btn';
             } else {
-                icon.className = 'fa-solid fa-play ml-1';
-                clearInterval(progressInterval);
+                playPauseBtn.className = 'fa-solid fa-pause control-btn';
             }
         }
 
-        // ฟังก์ชันจำลองแถบวิ่ง
-        function startProgress() {
-            const fill = document.getElementById('progressFill');
-            const time = document.getElementById('currentTime');
-            let currentSec = 45;
-            
-            progressInterval = setInterval(() => {
-                currentSec++;
-                if (currentSec > 200) currentSec = 0;
-                
-                let min = Math.floor(currentSec / 60);
-                let sec = currentSec % 60;
-                time.innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-                fill.style.width = (currentSec / 200 * 100) + '%';
-            }, 1000);
-        }
-
-        // --- ระบบบันทึกข้อมูลอัตโนมัติ ---
-        const fields = ['userName', 'userTagline', 'fullName', 'birthday', 'hobbies', 'quote'];
+        // ระบบบันทึกข้อมูล
+        const fields = ['userName', 'userTagline', 'fullName', 'birthday', 'hobbies', 'goals', 'quote'];
         
         window.onload = () => {
             fields.forEach(id => {
@@ -353,9 +284,8 @@ body {
             const savedImg = localStorage.getItem('profileImage');
             if (savedImg) document.getElementById('profileImage').src = savedImg;
             
-            if (localStorage.getItem('profileLiked') === 'true') {
-                document.getElementById('heartBtn').classList.add('liked');
-            }
+            // เริ่มต้นให้หมุน
+            discContainer.classList.remove('paused');
         };
 
         fields.forEach(id => {
@@ -364,7 +294,7 @@ body {
             });
         });
 
-        // อัปโหลดรูปและบีบอัด
+        // อัปโหลดรูป (คลิกที่รูปได้เลย ไม่ต้องกดหยุด)
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -374,7 +304,7 @@ body {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const size = 500;
+                    const size = 400; 
                     canvas.width = size;
                     canvas.height = size;
                     const ctx = canvas.getContext('2d');
