@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Stock Management | Koyangi Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root{ --bg:#1a1a1a; --main:#9d81e1; --dark:#d1c4e9; --white:#252525; --green:#4caf50; --red:#ff5252; --glow:rgba(157,129,225,0.3); }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Mitr',sans-serif;}
+        body { background: var(--bg); color: #fff; display: flex; justify-content: center; min-height: 100vh; }
+        
+        /* --- UI Elements --- */
+        .hamburger { position: fixed; top: 20px; right: 20px; z-index: 1100; background: var(--main); width: 45px; height: 45px; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 4px 15px var(--glow); transition: 0.3s; }
+        .hamburger span { width: 25px; height: 3px; background: #fff; border-radius: 2px; transition: 0.3s ease-in-out; display: block; }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        .sidebar { position: fixed; top: 0; right: -280px; width: 280px; height: 100%; background: #252525; z-index: 1050; padding: 80px 20px 20px; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: -5px 0 25px rgba(0,0,0,0.5); border-left: 2px solid var(--main); }
+        .sidebar.active { right: 0; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 999; backdrop-filter: blur(3px); }
+        .overlay.active { display: block; }
+
+        .admin-container { width: 100%; max-width: 500px; padding: 40px 15px 120px; }
+        .section-card { background: var(--white); border-radius: 25px; padding: 20px; margin-bottom: 20px; border: 1.5px solid var(--main); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        
+        select, input { width: 100%; padding: 10px 15px; background: #1a1a1a; border: 1.2px solid #444; border-radius: 12px; color: #fff; outline: none; font-size: 14px; transition: 0.3s; }
+        select:focus, input:focus { border-color: var(--main); }
+
+        .app-cat { width: auto !important; min-width: 120px; padding-right: 30px; }
+
+        .stock-item { background: #2d2d2d; border-radius: 20px; padding: 15px; margin-bottom: 15px; border: 1px solid #444; position: relative; transition: 0.3s; }
+        .stock-item.out-of-stock { opacity: 0.6; filter: grayscale(0.8); border: 1px solid var(--red); }
+        .stock-item.out-of-stock::after { content: "SOLD OUT"; position: absolute; top: 10px; right: 10px; background: var(--red); color: white; font-size: 10px; padding: 2px 8px; border-radius: 5px; font-weight: bold; }
+        .stock-item.hidden-item { opacity: 0.5; border-style: dashed; }
+
+        .item-header { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+        .img-box { position: relative; width: 65px; height: 65px; flex-shrink: 0; }
+        .img-preview { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; background: #1a1a1a; border: 1px solid #444; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn { border: none; border-radius: 12px; font-weight: 500; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+        
+        .floating-save-circle { 
+            position: fixed; bottom: 30px; left: 20px; 
+            width: 65px; height: 65px; border-radius: 50%;
+            z-index: 1000; background: var(--main); color: white; 
+            font-size: 24px; box-shadow: 0 8px 25px var(--glow); 
+            border: 3px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .floating-save-circle:hover { transform: scale(1.1) rotate(15deg); }
+        .floating-save-circle:active { transform: scale(0.9); }
+        .floating-save-circle.success { background: var(--green); transform: scale(1.1); }
+
+        .btn-add { background: transparent; color: var(--main); border: 2.5px dashed var(--main); padding: 12px; margin-bottom: 40px; border-radius: 20px; }
+        
+        .action-btns { display: flex; gap: 8px; margin-top: 12px; }
+        .btn-mini { padding: 8px; font-size: 12px; border-radius: 10px; flex: 1; }
+        .btn-hide { background: #444; color: #fff; }
+        .btn-hide.active { background: #ff9800; }
+        .btn-del { background: rgba(255, 82, 82, 0.1); color: var(--red); }
+
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        .login-card { background: var(--white); padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 360px; border: 2px solid var(--main); text-align: center; }
+        
+        .nav-item { text-decoration: none; color: var(--dark); display: flex; align-items: center; padding: 15px 20px; margin-bottom: 10px; border-radius: 15px; font-size: 16px; transition: 0.3s; gap: 15px; }
+        .bottom-nav-box { margin-top: 30px; border-top: 1px solid #444; padding-top: 20px; text-align: center; }
+        .back-link-btn { display: inline-flex; align-items: center; gap: 8px; background: #333; color: #ccc; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-size: 14px; transition: 0.3s; }
+
+        #safePinInput {
+            font-size: 24px; text-align: center; letter-spacing: 10px; 
+            margin-bottom: 20px; background: #1a1a1a; color: var(--main); 
+            width: 100%; -webkit-text-security: disc;
+        }
+
+        /* ส่วนข้อมูลลูกค้าเพิ่มเติม */
+        .shop-info-card { background: rgba(157,129,225,0.1); border: 1px dashed var(--main); border-radius: 20px; padding: 15px; margin-top: 30px; font-size: 13px; color: #ddd; text-align: left; }
+        .shop-info-card h4 { color: var(--main); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .shop-info-card ul { list-style: none; padding-left: 5px; }
+        .shop-info-card li { margin-bottom: 5px; }
+        .shop-link { color: var(--main); text-decoration: none; font-size: 11px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    </style>
+</head>
