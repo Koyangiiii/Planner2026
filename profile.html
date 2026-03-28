@@ -60,17 +60,16 @@ body {
     transition: all 0.3s ease;
 }
 
-/* หัวข้อ My Profile แบบใหม่ */
+/* หัวข้อ My Profile ให้เด่นและไม่ต้องพิมพ์เอง */
 .profile-static-title {
     font-family: var(--header-font);
-    font-size: 3.8rem;
+    font-size: 3.5rem;
     color: var(--accent-pink);
     margin: 0;
     line-height: 1;
     text-shadow: 3px 3px 0px #fff, 5px 5px 15px rgba(235, 122, 166, 0.3);
-    user-select: none;
-    letter-spacing: 2px;
     text-align: center;
+    user-select: none;
 }
 
 .profile-title-area {
@@ -80,25 +79,85 @@ body {
     text-align: center;
 }
 
+/* ปรับ Layout ให้ข้อมูลขยายเต็มหลังจากพ้นรูป */
 .main-layout {
-    display: grid;
-    grid-template-columns: 250px 1fr;
+    display: block; /* เปลี่ยนจาก Grid เป็น Block เพื่อให้ Flow ต่อกัน */
+}
+
+.top-section {
+    display: flex;
     gap: 30px;
-    align-items: stretch;
+    margin-bottom: 20px;
 }
 
 .music-side {
+    flex: 0 0 210px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
-.player-container {
-    position: relative;
-    width: 210px;
+.info-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
+/* ส่วนที่ชอบ (Photo Grid) */
+.likes-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px dashed #ffdbee;
+}
+
+.likes-title {
+    font-weight: 600;
+    color: var(--accent-pink);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.photo-slot {
+    aspect-ratio: 1/1;
+    background: #fffafa;
+    border: 2px dashed #ffdbee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.photo-slot:hover {
+    background: #ffeef6;
+    border-color: var(--accent-pink);
+}
+
+.photo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-slot i {
+    color: #ffdbee;
+    font-size: 1.5rem;
+}
+
+/* UI Elements */
 .profile-img-container {
     width: 210px;
     height: 210px;
@@ -107,46 +166,11 @@ body {
     box-shadow: 0 10px 25px rgba(235, 122, 166, 0.15);
     cursor: pointer;
     border: 5px solid white;
-    transition: all 0.3s ease;
-}
-
-.profile-img-container.paused {
-    opacity: 0.85;
-    transform: scale(0.98);
-}
-
-.profile-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.progress-line-container {
-    width: 180px;
-    height: 4px;
-    background: #fffafa;
-    margin: 15px auto 0;
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.progress-line-fill {
-    width: 45%;
-    height: 100%;
-    background: var(--accent-pink);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-}
-
-.info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
 .info-item {
     background: #fffafa;
-    padding: 12px 18px;
+    padding: 10px 18px;
     border-radius: 18px;
     border: 1px solid rgba(235, 122, 166, 0.08);
 }
@@ -154,23 +178,187 @@ body {
 .info-label {
     font-weight: 600;
     color: var(--accent-pink);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 5px;
-    user-select: none;
 }
 
 .editable-value {
     display: block;
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--text-dark);
-    margin-top: 2px;
-    min-height: 1.5em;
-    cursor: text;
+    outline: none;
 }
 
-.editable-value:focus {
-    outline: none;
-    background: rgba(235, 1
+@media (max-width: 600px) {
+    .top-section { flex-direction: column; align-items: center; }
+    .music-side { margin-bottom: 20px; }
+}
+</style>
+</head>
+<body>
+
+    <div class="profile-board">
+        <div class="nav-group">
+            <a href="menu.html" class="nav-button"><i class="fa-solid fa-house"></i></a>
+            <a href="calendar.html" class="nav-button"><i class="fa-solid fa-calendar-days"></i></a>
+        </div>
+
+        <div class="profile-title-area">
+            <h1 class="profile-static-title">My Profile</h1>
+            <div id="userTagline" contenteditable="true" class="editable-value text-sm italic opacity-60">Ready for 2026... ✨</div>
+        </div>
+
+        <div class="main-layout">
+            <!-- ส่วนบน: รูปโปรไฟล์ + ข้อมูลหลัก -->
+            <div class="top-section">
+                <div class="music-side">
+                    <div class="player-container">
+                        <div id="discContainer" class="profile-img-container" onclick="document.getElementById('fileInput').click()">
+                            <img id="profileImage" src="https://via.placeholder.com/300" alt="Profile">
+                        </div>
+                        <div class="flex justify-center gap-4 mt-3 text-pink-400">
+                            <i class="fa-solid fa-play text-sm"></i>
+                            <div class="w-24 h-1 bg-pink-100 self-center rounded-full overflow-hidden">
+                                <div class="w-1/2 h-full bg-pink-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" hidden accept="image/*">
+                </div>
+
+                <div class="info-content">
+                    <div class="info-item">
+                        <span class="info-label"><i class="fa-solid fa-user text-[9px]"></i> Full Name</span>
+                        <span class="editable-value" id="fullName" contenteditable="true">Somchai Jaidee</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fa-solid fa-cake-candles text-[9px]"></i> Birthday</span>
+                        <span class="editable-value" id="birthday" contenteditable="true">01 Jan 2000</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fa-solid fa-heart text-[9px]"></i> Hobbies</span>
+                        <span class="editable-value" id="hobbies" contenteditable="true">Coding, Web Design</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ส่วนล่าง: ข้อมูลที่ยาวเต็มความกว้าง -->
+            <div class="info-item mb-4">
+                <span class="info-label"><i class="fa-solid fa-star text-[9px]"></i> Goals for 2026</span>
+                <span class="editable-value" id="goals" contenteditable="true">I want to create beautiful digital products and share them with the world!</span>
+            </div>
+
+            <!-- ส่วนสิ่งที่ชอบ (Photo Grid) -->
+            <div class="likes-section">
+                <div class="likes-title"><i class="fa-solid fa-icons"></i> Things I Love</div>
+                <div class="photo-grid">
+                    <!-- 4 ช่องสำหรับใส่รูปสิ่งที่ชอบ -->
+                    <div class="photo-slot" onclick="uploadLikeImg(1)">
+                        <img id="likeImg1" src="" style="display:none">
+                        <i id="plus1" class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="photo-slot" onclick="uploadLikeImg(2)">
+                        <img id="likeImg2" src="" style="display:none">
+                        <i id="plus2" class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="photo-slot" onclick="uploadLikeImg(3)">
+                        <img id="likeImg3" src="" style="display:none">
+                        <i id="plus3" class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="photo-slot" onclick="uploadLikeImg(4)">
+                        <img id="likeImg4" src="" style="display:none">
+                        <i id="plus4" class="fa-solid fa-plus"></i>
+                    </div>
+                </div>
+                <input type="file" id="likeInput" hidden accept="image/*">
+            </div>
+
+            <div id="quote" contenteditable="true" class="editable-value text-center mt-6 italic text-sm opacity-50">
+                "Every pixel tells a story."
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // บันทึกข้อความ
+        const fields = ['userTagline', 'fullName', 'birthday', 'hobbies', 'goals', 'quote'];
+        
+        window.onload = () => {
+            fields.forEach(id => {
+                const saved = localStorage.getItem(id);
+                if (saved) document.getElementById(id).innerText = saved;
+            });
+            
+            // โหลดรูปโปรไฟล์
+            const savedImg = localStorage.getItem('profileImage');
+            if (savedImg) document.getElementById('profileImage').src = savedImg;
+
+            // โหลดรูปสิ่งที่ชอบ
+            for(let i=1; i<=4; i++) {
+                const savedLike = localStorage.getItem('likeImg' + i);
+                if(savedLike) {
+                    const img = document.getElementById('likeImg' + i);
+                    img.src = savedLike;
+                    img.style.display = 'block';
+                    document.getElementById('plus' + i).style.display = 'none';
+                }
+            }
+        };
+
+        fields.forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                localStorage.setItem(id, document.getElementById(id).innerText);
+            });
+        });
+
+        // จัดการรูปโปรไฟล์
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            handleImageUpload(e.target.files[0], 'profileImage');
+        });
+
+        // จัดการรูปสิ่งที่ชอบ
+        let currentLikeId = null;
+        function uploadLikeImg(id) {
+            currentLikeId = id;
+            document.getElementById('likeInput').click();
+        }
+
+        document.getElementById('likeInput').addEventListener('change', function(e) {
+            if(currentLikeId) {
+                handleImageUpload(e.target.files[0], 'likeImg' + currentLikeId, true);
+            }
+        });
+
+        function handleImageUpload(file, elementId, isLikeImg = false) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const size = 500; 
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, size, size);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    const targetImg = document.getElementById(elementId);
+                    targetImg.src = dataUrl;
+                    targetImg.style.display = 'block';
+                    localStorage.setItem(elementId, dataUrl);
+                    
+                    if(isLikeImg) {
+                        document.getElementById('plus' + currentLikeId).style.display = 'none';
+                    }
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>
