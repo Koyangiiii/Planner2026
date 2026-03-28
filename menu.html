@@ -19,7 +19,6 @@
 
 body {
 background-color: var(--bg-main);
-/* พื้นหลังลายเส้นสมุดแนวตั้งคงเดิม */
 background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
 font-family: 'Mitr', sans-serif;
 color: var(--text-dark);
@@ -36,78 +35,90 @@ margin: 0;
     background-color: var(--paper);
     width: 90%;
     max-width: 400px;
-    padding: 30px 20px;
-    border-radius: 30px;
-    box-shadow: 0 10px 25px rgba(235, 122, 166, 0.2);
+    padding: 40px 25px;
+    border-radius: 35px;
+    box-shadow: 0 15px 35px rgba(235, 122, 166, 0.2);
     position: relative;
     border: 2px solid white;
 }
 
-/* หัวข้อเมนูภายในกรอบ */
+/* หัวข้อเมนู */
+.menu-title {
+    color: var(--accent-pink);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ปุ่มเมนู */
 .menu-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #fff5f9;
-    padding: 18px 25px;
-    margin: 10px 0;
+    background: #fffafa;
+    padding: 20px 25px;
+    margin-bottom: 12px;
     border-radius: 20px;
-    text-decoration: none;
+    text-decoration: none; /* เอาเส้นใต้ลิงก์ออก */
     color: var(--text-dark);
     font-weight: 500;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1.5px solid var(--line-color);
+    cursor: pointer;
 }
 
+/* เอฟเฟกต์ตอนเอาเม้าส์วาง */
 .menu-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px) scale(1.02);
     background: var(--accent-pink);
     color: white;
     border-color: var(--accent-pink);
+    box-shadow: 0 8px 20px rgba(235, 122, 166, 0.3);
 }
 
-/* ไอคอนสามเหลี่ยมในเมนู */
 .menu-arrow {
-    font-size: 0.8rem;
-    opacity: 0.6;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
 }
 
 .menu-item:hover .menu-arrow {
-    opacity: 1;
+    transform: translateX(5px);
 }
 
-/* ตกแต่งรูเจาะกระดาษด้านข้างกรอบ (Optional - ให้ดูเหมือนสมุด) */
+/* ตกแต่งรูเจาะกระดาษ */
 .menu-card::before {
     content: '';
     position: absolute;
-    left: -10px;
+    left: 12px;
     top: 20%;
     height: 60%;
-    width: 5px;
-    background-image: radial-gradient(circle, #db96b4 2px, transparent 2px);
-    background-size: 100% 20px;
+    width: 6px;
+    background-image: radial-gradient(circle, #ffd1e3 3px, transparent 3px);
+    background-size: 100% 25px;
+    opacity: 0.8;
 }
 </style>
 </head>
 <body>
 
-    <!-- กรอบข้อความสีขาว -->
     <div class="menu-card text-center">
         
-        <h2 class="mb-6 text-xl font-bold opacity-80 uppercase tracking-widest" style="color: var(--accent-pink);">Main Menu</h2>
+        <h2 class="menu-title">Main Menu</h2>
 
-        <!-- รายการเมนู -->
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col">
+            <!-- เชื่อมลิงก์ไปหน้า profile.html -->
             <a href="profile.html" class="menu-item">
                 <span>ประวัติส่วนตัว</span>
                 <span class="menu-arrow">►</span>
             </a>
-            
-            <!-- คุณสามารถเพิ่มเมนูอื่นๆ ตรงนี้ได้ในอนาคต -->
+
+            <!-- ตัวอย่างเมนูอื่นๆ ที่เพิ่มได้ในอนาคต -->
             <!-- 
-            <a href="#" class="menu-item">
-                <span>ผลงาน</span>
+            <a href="portfolio.html" class="menu-item">
+                <span>ผลงานของฉัน</span>
                 <span class="menu-arrow">►</span>
             </a> 
             -->
@@ -117,4 +128,3 @@ margin: 0;
 
 </body>
 </html>
-
