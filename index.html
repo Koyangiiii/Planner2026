@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Planner2026</title>
+<title>Planner2026 - Home</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
 --bg-main: #ffe6f0;
@@ -15,89 +15,154 @@
 --accent-pink: #eb7aa6;
 --accent-yellow: #fcf2b6;
 }
+
 body {
 background-color: var(--bg-main);
-/* พื้นหลังลายตาราง/เส้นสมุดแบบเดิม */
+/* ลายเส้นสมุดแนวตั้ง */
 background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
-overflow: hidden; /* ล็อคหน้าจอไม่ให้เลื่อน */
+overflow: hidden;
 height: 100vh;
 width: 100vw;
 display: flex;
 align-items: center;
 justify-content: center;
+margin: 0;
 }
+
 .font-signature { font-family: 'Dancing Script', cursive; }
 
-/* ปุ่มวงกลมไปหน้าถัดไป */
-.menu-circle {
-    position: fixed;
-    top: 25px;
-    right: 25px;
-    width: 55px;
-    height: 55px;
+/* Container หลักจัดวางแนวตั้ง */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px; /* ระยะห่างระหว่างชื่อกับปุ่ม */
+    text-align: center;
+    width: 100%;
+}
+
+/* ชื่อ Planner2026 */
+.planner-highlight {
+    font-size: clamp(4rem, 18vw, 8.5rem);
+    line-height: 1.1;
+    color: var(--accent-pink);
+    text-shadow: 4px 4px 0px var(--accent-yellow);
+    filter: drop-shadow(2px 2px 10px rgba(235, 122, 166, 0.3));
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+}
+
+/* ปุ่ม Next Track (ไปหน้าเมนู) */
+.music-btn-next {
+    width: 90px;
+    height: 90px;
     background-color: var(--paper);
-    border: 2px solid var(--accent-pink);
+    border: 3px solid var(--accent-pink);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--accent-pink);
-    font-size: 1.4rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(235, 122, 166, 0.2);
-    z-index: 100;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(235, 122, 166, 0.25);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-decoration: none;
+    position: relative;
 }
-.menu-circle:hover {
+
+/* ไอคอนเครื่องเล่นเพลง (Next Track) */
+.icon-next {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 5px; /* ชดเชยให้ดูตรงกลางสายตา */
+}
+
+.icon-next .arrow {
+    font-size: 2.2rem;
+    line-height: 1;
+}
+
+.icon-next .bar {
+    width: 5px;
+    height: 28px;
+    background-color: var(--accent-pink);
+    border-radius: 2px;
+}
+
+.music-btn-next:hover {
+    transform: scale(1.15);
     background-color: var(--accent-pink);
     color: white;
-    transform: scale(1.1) rotate(15deg);
 }
 
-/* ปรับขนาด Planner2026 ให้ใหญ่เต็มตา */
-.planner-highlight {
-    font-size: clamp(4rem, 20vw, 9rem);
-    line-height: 1;
-    text-shadow: 5px 5px 0px var(--accent-yellow);
-    filter: drop-shadow(2px 2px 10px rgba(235, 122, 166, 0.3));
-    display: inline-block;
+.music-btn-next:hover .bar {
+    background-color: white;
 }
 
-.tape { position: absolute; mix-blend-mode: multiply; opacity: 0.8; z-index: -1; }
-.tape-pink { 
-    background-color: #ffb6c1; 
-    clip-path: polygon(1% 2%, 99% 0%, 98% 98%, 0% 100%); 
+.music-btn-next:active {
+    transform: scale(0.95);
 }
 
+/* ตกแต่งเทป */
+.tape {
+    position: absolute;
+    top: -20px;
+    left: 10%;
+    width: 120px;
+    height: 35px;
+    background-color: #ffb6c1;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    clip-path: polygon(2% 5%, 98% 0%, 95% 90%, 5% 100%);
+    z-index: -1;
+}
+
+/* อนิเมชั่นลอยๆ */
 @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-15px) rotate(0deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
-.hero-container {
+.float-anim {
     animation: float 4s ease-in-out infinite;
-    text-align: center;
+}
+
+/* คำอธิบายปุ่มเล็กๆ */
+.btn-label {
+    font-family: sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: var(--accent-pink);
+    margin-top: 10px;
+    text-transform: uppercase;
+    opacity: 0.7;
 }
 </style>
 </head>
 <body>
 
-<!-- ปุ่มไปหน้า Menu -->
-<a href="menu.html" class="menu-circle" title="Go to Menu">
-    <span style="margin-left: 4px;">►</span>
-</a>
-
-<!-- ส่วนแสดงผลหลัก -->
-<div class="hero-container relative">
-    <div class="relative inline-block">
-        <!-- เทปแปะตกแต่งข้างหลัง -->
-        <div class="tape tape-pink -top-10 left-0 w-32 h-10 opacity-40"></div>
-        <h1 class="font-signature planner-highlight text-[#eb7aa6]">
+<div class="main-content">
+    
+    <!-- ส่วนชื่อ -->
+    <div class="relative float-anim">
+        <div class="tape"></div>
+        <h1 class="font-signature planner-highlight">
             Planner2026
         </h1>
-        <!-- ของตกแต่งเล็กๆ -->
-        <span class="absolute -top-6 -right-10 text-4xl">✨</span>
     </div>
+
+    <!-- ส่วนปุ่มกด -->
+    <div class="flex flex-col items-center">
+        <a href="menu.html" class="music-btn-next" title="Next to Menu">
+            <div class="icon-next">
+                <span class="arrow">►</span>
+                <div class="bar"></div>
+            </div>
+        </a>
+        <div class="btn-label">Next to Menu</div>
+    </div>
+
 </div>
 
 </body>
