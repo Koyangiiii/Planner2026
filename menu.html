@@ -22,7 +22,6 @@ background-color: var(--bg-main);
 background-image: repeating-linear-gradient(to right, #ffe6f0, #ffe6f0 40px, #ffdbee 40px, #ffdbee 80px);
 font-family: 'Mitr', sans-serif;
 color: var(--text-dark);
-overflow-x: hidden;
 min-height: 100vh;
 display: flex;
 align-items: center;
@@ -30,62 +29,69 @@ justify-content: center;
 margin: 0;
 }
 
-/* กรอบข้อความสีขาว */
+/* ปรับความกว้างกรอบให้กว้างขึ้นเพื่อรองรับแนวนอน */
 .menu-card {
     background-color: var(--paper);
-    width: 90%;
-    max-width: 400px;
-    padding: 40px 25px;
+    width: 95%;
+    max-width: 600px;
+    padding: 40px 20px;
     border-radius: 35px;
     box-shadow: 0 15px 35px rgba(235, 122, 166, 0.2);
     position: relative;
     border: 2px solid white;
 }
 
-/* หัวข้อเมนู */
 .menu-title {
     color: var(--accent-pink);
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     letter-spacing: 2px;
     text-transform: uppercase;
 }
 
-/* ปุ่มเมนู */
+/* Container สำหรับเมนูแนวนอน */
+.menu-container {
+    display: flex;
+    flex-direction: row; /* เรียงไปทางขวา */
+    flex-wrap: wrap;    /* ถ้าล้นให้ลงมาบรรทัดใหม่ */
+    justify-content: center;
+    gap: 15px;          /* ระยะห่างระหว่างปุ่ม */
+}
+
+/* ปรับขนาดปุ่มเมนูให้พอดีกับการเรียงขวา */
 .menu-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 10px;
     background: #fffafa;
-    padding: 20px 25px;
-    margin-bottom: 12px;
-    border-radius: 20px;
-    text-decoration: none; /* เอาเส้นใต้ลิงก์ออก */
+    padding: 15px 20px;
+    border-radius: 18px;
+    text-decoration: none; 
     color: var(--text-dark);
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 1.5px solid var(--line-color);
     cursor: pointer;
+    flex: 0 1 auto; /* ขนาดตามเนื้อหา */
 }
 
-/* เอฟเฟกต์ตอนเอาเม้าส์วาง */
 .menu-item:hover {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-5px);
     background: var(--accent-pink);
     color: white;
     border-color: var(--accent-pink);
-    box-shadow: 0 8px 20px rgba(235, 122, 166, 0.3);
+    box-shadow: 0 8px 15px rgba(235, 122, 166, 0.2);
 }
 
 .menu-arrow {
-    font-size: 0.9rem;
-    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
 .menu-item:hover .menu-arrow {
-    transform: translateX(5px);
+    opacity: 1;
 }
 
 /* ตกแต่งรูเจาะกระดาษ */
@@ -108,20 +114,27 @@ margin: 0;
         
         <h2 class="menu-title">Main Menu</h2>
 
-        <div class="flex flex-col">
-            <!-- เชื่อมลิงก์ไปหน้า profile.html -->
+        <!-- เปลี่ยนเป็น flex-row ผ่าน class menu-container -->
+        <div class="menu-container">
+            
             <a href="profile.html" class="menu-item">
                 <span>ประวัติส่วนตัว</span>
                 <span class="menu-arrow">►</span>
             </a>
 
-            <!-- ตัวอย่างเมนูอื่นๆ ที่เพิ่มได้ในอนาคต -->
-            <!-- 
-            <a href="portfolio.html" class="menu-item">
-                <span>ผลงานของฉัน</span>
+            <a href="calendar.html" class="menu-item">
+                <span>Calendar</span>
                 <span class="menu-arrow">►</span>
-            </a> 
+            </a>
+
+            <!-- ตัวอย่างถ้าเพิ่มเมนูที่ 3 จะเรียงไปทางขวาต่อ -->
+            <!-- 
+            <a href="gallery.html" class="menu-item">
+                <span>Gallery</span>
+                <span class="menu-arrow">►</span>
+            </a>
             -->
+            
         </div>
 
     </div>
