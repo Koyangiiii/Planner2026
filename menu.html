@@ -27,19 +27,24 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0;
+    padding: 20px;
 }
 
-/* ลบกรอบขาว (card) ออก ให้เหลือแค่โครงสร้างจัดการตำแหน่ง */
-.menu-wrapper {
-    width: 95%;
-    max-width: 600px;
-    padding: 20px;
+/* เพิ่มกระดานสีขาวหลักกลับมา */
+.calendar-board {
+    background-color: var(--paper);
+    width: 100%;
+    max-width: 700px; 
+    padding: 60px 40px;
+    border-radius: 40px;
+    box-shadow: 0 15px 40px rgba(235, 122, 166, 0.2);
+    border: 3px solid white;
     text-align: center;
 }
 
 .menu-title {
     color: var(--accent-pink);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 10px;
     letter-spacing: 2px;
@@ -51,8 +56,8 @@ body {
     border: none;
     height: 1px;
     background-color: var(--accent-pink);
-    opacity: 0.4;
-    margin: 20px auto;
+    opacity: 0.3;
+    margin: 25px auto;
     width: 100%;
 }
 
@@ -62,42 +67,47 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px; /* เพิ่มระยะห่างระหว่างข้อความ */
+    gap: 40px; /* เพิ่มระยะห่างระหว่างข้อความ */
 }
 
-/* เมนูแบบไม่มีกรอบ (Text only) */
+/* เมนูแบบไม่มีกรอบและไม่มีลูกศร */
 .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     text-decoration: none; 
     color: var(--text-dark);
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
     padding: 5px 0;
 }
 
 .menu-item:hover {
     color: var(--accent-pink);
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
-.menu-arrow {
-    font-size: 0.8rem;
-    color: var(--accent-pink);
-    opacity: 0.6;
+/* เพิ่มเส้นใต้เบาๆ ตอน Hover แทนลูกศร */
+.menu-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-pink);
+    transition: width 0.3s ease;
 }
 
-.menu-item:hover .menu-arrow {
-    opacity: 1;
+.menu-item:hover::after {
+    width: 100%;
 }
 </style>
 </head>
 <body>
 
-    <div class="menu-wrapper">
+    <!-- กระดานขาวหลัก (calendar-board) -->
+    <div class="calendar-board">
         
         <h2 class="menu-title">Main Menu</h2>
 
@@ -108,17 +118,14 @@ body {
             
             <a href="profile.html" class="menu-item">
                 <span>ประวัติส่วนตัว</span>
-                <span class="menu-arrow">►</span>
             </a>
 
             <a href="calendar.html" class="menu-item">
                 <span>Calendar</span>
-                <span class="menu-arrow">►</span>
             </a>
 
             <a href="diary.html" class="menu-item">
                 <span>Diary</span>
-                <span class="menu-arrow">►</span>
             </a>
             
         </div>
